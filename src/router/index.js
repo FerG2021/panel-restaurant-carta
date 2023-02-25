@@ -20,6 +20,10 @@ const router = createRouter({
       component: () => import("../views/categories/index.vue"),
     },
     {
+      path: "/resenias",
+      component: () => import("../views/reviews/index.vue"),
+    },
+    {
       path: "/mesas",
       component: () => import("../views/tables/index.vue"),
     },

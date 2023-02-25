@@ -95,6 +95,31 @@
 
       <!-- Mesas -->
       <div v-if="tipoUsuario == 1">
+        <router-link class="button" to="/resenias" v-if="is_expanded">
+          <span class="material-icons">reviews</span>
+          <span class="text">Reseñas</span>
+        </router-link>
+
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          content="Reseñas"
+          placement="right-start"
+          v-if="!is_expanded"
+        >
+          <router-link
+            class="button"
+            to="/resenias"
+            v-if="!is_expanded || is_expanded"
+          >
+            <span class="material-icons">reviews</span>
+            <span class="text">Reseñas</span>
+          </router-link>
+        </el-tooltip>
+      </div>
+
+      <!-- Mesas -->
+      <div v-if="tipoUsuario == 1">
         <router-link class="button" to="/mesas" v-if="is_expanded">
           <span class="material-icons">table_bar</span>
           <span class="text">Mesas</span>
