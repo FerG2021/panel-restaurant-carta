@@ -5,7 +5,6 @@
         <h1 style="margin-top: 15px; margin-left: 15px">Reseñas</h1>
       </template>
 
-
       <template #content>
         <div style="margin-top: 10px">
           <DataTable
@@ -51,8 +50,12 @@
 
             <Column field="rating" header="Valoración">
               <template #body="slotProps">
-                  <!-- {{ slotProps.data.rating }} -->
-                  <Rating :modelValue="5" :readonly="true" :cancel="false" />
+                <!-- {{ slotProps.data.rating }} -->
+                <Rating
+                  :modelValue="slotProps.data.rating"
+                  :readonly="true"
+                  :cancel="false"
+                />
               </template>
             </Column>
 

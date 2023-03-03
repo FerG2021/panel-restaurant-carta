@@ -9,7 +9,7 @@
       class="flex justify-content-center"
       :draggable="false"
     >
-      <template #header icon="pi pi-refresh" style="margin: 0px" class="s">
+      <template #header>
         <h3 style="margin: 0px">
           <span class="material-icons">restaurant</span> Nuevo producto
         </h3>
@@ -111,8 +111,8 @@
 
           <!-- Stock -->
           <div class="field">
-              <p for="stock">Disponible</p>
-              <InputSwitch id="stock" v-model="stock" />
+            <p for="stock">Disponible</p>
+            <InputSwitch id="stock" v-model="stock" />
           </div>
 
           <!-- Subcategoria -->
@@ -137,7 +137,7 @@
           </div>
 
           <!-- Imagen -->
-          <!-- <div class="field">
+          <div class="field">
             <div class="p-float-label">
               <FileUpload
                 name="form.demo"
@@ -154,7 +154,7 @@
                 </template>
               </FileUpload>
             </div>
-          </div> -->
+          </div>
 
           <Button
             label="Guardar"
@@ -336,12 +336,11 @@ export default {
       this.form.precio = this.precio;
       this.form.imagen = this.imagen;
 
-      if(this.stock == true){
+      if (this.stock == true) {
         this.form.stock = 1;
       } else {
         this.form.stock = 0;
       }
-
 
       let formData = new FormData();
 

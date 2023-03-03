@@ -9,7 +9,7 @@
       class="flex justify-content-center"
       :draggable="false"
     >
-      <template #header icon="pi pi-refresh" style="margin: 0px" class="s">
+      <template #header>
         <h3 style="margin: 0px">
           <i class="pi pi-stop" style="font-size: 20px" /> Modificar producto
         </h3>
@@ -119,9 +119,9 @@
 
           <!-- Stock -->
           <div class="field">
-              <p for="stock">Disponible</p>
-              <InputSwitch id="stock" v-model="stock" />
-              <!-- {{ stock }} -->
+            <p for="stock">Disponible</p>
+            <InputSwitch id="stock" v-model="stock" />
+            <!-- {{ stock }} -->
           </div>
 
           <!-- Subcategoria -->
@@ -141,6 +141,45 @@
                 :class="{ 'p-error': v$.categoria.$invalid && submitted }"
                 >Categoría <span style="color: red">*</span></label
               >
+            </div>
+          </div>
+
+          <div class="field" v-if="imagenAPI != null">
+            <h5>Imagen</h5>
+            <Image
+              preview
+              :src="imagenAPI"
+              alt="Image"
+              width="130"
+              class="ver-imagen"
+              imageStyle="border-radius: 8px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);padding: 3px;"
+            />
+          </div>
+
+          <!-- Imagen -->
+          <div class="field">
+            <div class="p-float-label">
+              <FileUpload
+                name="form.demo"
+                url="./upload.php"
+                @upload="onUpload"
+                @select="imagenSeleccionada"
+                :multiple="false"
+                accept="image/*"
+                :maxFileSize="1000000"
+                invalidFileSizeMessage="{0}: Tamaño de archivo inválido, debe ser menor a {1}."
+              >
+                <template #empty>
+                  <p>Arrastre las imágenes para subirlas</p>
+                  <p>
+                    <b
+                      >Sólo subir si desea modificar la imagen cargada
+                      previamente</b
+                    >
+                  </p>
+                </template>
+              </FileUpload>
+              <!-- <label for="stockMinimo" :class="{'p-error':v$.stockMinimo.$invalid && submitted}">Stock mínimo</label> -->
             </div>
           </div>
 
@@ -177,9 +216,19 @@ export default {
       descripcion: "",
       precio: null,
       stock: false,
+      magenAPI: null,
       imagen: null,
       categoriasAPI: [],
       categoria: null,
+
+      form: {
+        idCategoria: null,
+        nombre: null,
+        descripcion: null,
+        precio: null,
+        stock: null,
+        imagen: null,
+      },
     };
   },
 
@@ -254,16 +303,19 @@ export default {
           this.nombre = response.data.data.name;
           this.descripcion = response.data.data.description;
           this.precio = response.data.data.price;
+          this.imagenAPI = response.data.data.image;
 
-          if (response.data.data.stock == true || response.data.data.stock == 1) {
+          if (
+            response.data.data.stock == true ||
+            response.data.data.stock == 1
+          ) {
             this.stock = true;
           } else {
             this.stock = false;
           }
 
-          console.log("this.stock")
-          console.log(this.stock)
-
+          console.log("this.stock");
+          console.log(this.stock);
 
           // console.log("this.categoriasAPI");
           // console.log(this.categoriasAPI);
@@ -282,6 +334,12 @@ export default {
           this.loading = false;
         }
       });
+    },
+
+    imagenSeleccionada(event) {
+      console.log("imagen");
+      console.log(event.files[0]);
+      this.imagen = event.files[0];
     },
 
     handleSubmit(isFormValid) {
@@ -327,29 +385,57 @@ export default {
     async guardar() {
       this.loadingBtnGuardar = true;
 
-      let params = {
-        nombre: this.nombre,
-        descripcion: this.descripcion,
-        idCategoria: this.categoria.id,
-        precio: this.precio,
-      };
+      // let params = {
+      //   nombre: this.nombre,
+      //   descripcion: this.descripcion,
+      //   idCategoria: this.categoria.id,
+      //   precio: this.precio,
+      // };
 
-      console.log("this.stock ANTES DE MANDAR")
-      console.log(this.stock)
+      // console.log("this.stock ANTES DE MANDAR");
+      // console.log(this.stock);
 
+      // if (this.stock == true || this.stock == 1) {
+      //   params.stock = true;
+      // } else {
+      //   params.stock = false;
+      // }
 
-      if(this.stock == true || this.stock == 1){
-        params.stock = true
+      // genero el formulario
+
+      console.log("this.categoria.id");
+      console.log(this.categoria.id);
+
+      this.form.idCategoria = this.categoria.id;
+      this.form.nombre = this.nombre;
+      this.form.descripcion = this.descripcion;
+      this.form.precio = this.precio;
+      this.form.imagen = this.imagen;
+
+      if (this.stock == true) {
+        this.form.stock = 1;
       } else {
-        params.stock = false
+        this.form.stock = 0;
       }
+
+      let formData = new FormData();
+
+      for (let key in this.form) {
+        formData.append(key, this.form[key]);
+      }
+
+      console.log("formData");
+      console.log(formData);
+
+      console.log("this.form");
+      console.log(this.form);
 
       // if (this.descripcion != "") {
       //   params.descripcion = this.descripcion;
       // }
 
       await this.axios
-        .put("/api/producto/" + this.id, params)
+        .post("/api/producto/" + this.id, formData)
         .then((response) => {
           console.log(response.data);
           if (response.data.code == 200) {

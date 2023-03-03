@@ -39,6 +39,30 @@
               </div>
             </template>
 
+            <Column field="name" header="Imagen" style="width: 20px">
+              <template #body="slotProps">
+                <Image
+                  v-if="slotProps.data.imageID != 'null'"
+                  preview
+                  :src="slotProps.data.image"
+                  alt="Image"
+                  width="40"
+                  class="ver-imagen"
+                  imageStyle="border-radius: 8px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);padding: 3px; height: 6vh; width: 6vh"
+                />
+
+                <!-- <Image
+                  v-else
+                  preview
+                  src="../assets/imagen-no-disponible.png"
+                  alt="Image"
+                  width="40"
+                  class="ver-imagen"
+                  imageStyle="border-radius: 8px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);padding: 3px; height: 6vh; width: 6vh"
+                /> -->
+              </template>
+            </Column>
+
             <Column field="name" header="Nombre">
               <template #body="slotProps">
                 <span>
