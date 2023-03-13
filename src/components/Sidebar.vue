@@ -5,7 +5,7 @@
     </div>
 
     <!-- items del menu -->
-    <div class="menu-toggle-wrap" v-if="tipoUsuario == 1">
+    <div class="menu-toggle-wrap">
       <button class="menu-toggle">
         <span class="material-icons" @click="toggleMenu()">
           keyboard_double_arrow_right
@@ -16,7 +16,7 @@
     <h3>MENU</h3>
     <div class="menu">
       <!-- Home -->
-      <div v-if="tipoUsuario == 1">
+      <div>
         <router-link class="button" to="/" v-if="is_expanded">
           <!-- <span class="material-icons">home</span> -->
           <i class="pi pi-home material-icons"></i>
@@ -39,7 +39,7 @@
       </div>
 
       <!-- Productos -->
-      <div v-if="tipoUsuario == 1">
+      <div>
         <router-link class="button" to="/productos" v-if="is_expanded">
           <span class="material-icons">restaurant</span>
           <!-- <i class="pi pi-stop material-icons"></i> -->
@@ -67,7 +67,7 @@
       </div>
 
       <!-- Categorias -->
-      <div v-if="tipoUsuario == 1">
+      <div>
         <router-link class="button" to="/categorias" v-if="is_expanded">
           <span class="material-icons">category</span>
           <!-- <i class="pi pi-stop material-icons"></i> -->
@@ -94,7 +94,7 @@
       </div>
 
       <!-- Mesas -->
-      <div v-if="tipoUsuario == 1">
+      <div>
         <router-link class="button" to="/resenias" v-if="is_expanded">
           <span class="material-icons">reviews</span>
           <span class="text">Reseñas</span>
@@ -119,7 +119,7 @@
       </div>
 
       <!-- Mesas -->
-      <div v-if="tipoUsuario == 1">
+      <div>
         <router-link class="button" to="/mesas" v-if="is_expanded">
           <span class="material-icons">table_bar</span>
           <span class="text">Mesas</span>
@@ -147,7 +147,7 @@
     <div class="flex"></div>
 
     <!-- Mi cuenta -->
-    <div class="menu" v-if="tipoUsuario == 1">
+    <div class="menu">
       <div>
         <router-link class="button" to="/mi-cuenta" v-if="is_expanded">
           <!-- <span class="material-icons">account_circle</span> -->
