@@ -9,7 +9,7 @@
       class="flex justify-content-center"
       :draggable="false"
     >
-      <template #header icon="pi pi-refresh" style="margin: 0px" class="s">
+      <template #header>
         <h3 style="margin: 0px">
           <i class="pi pi-eye" style="font-size: 20px" /> Detalles de reseña
         </h3>
@@ -36,7 +36,6 @@
 
         <!-- Email -->
         <div style="margin-top: 10px">
-
           <label for="email">Email</label>
           <InputText
             id="email"
@@ -49,14 +48,26 @@
         <!-- Rating -->
         <div style="margin-top: 10px">
           <label for="rating">Valoración</label>
-          <Rating id="rating" :modelValue="resenia.rating" :readonly="true" :cancel="false" />
+          <Rating
+            id="rating"
+            :modelValue="resenia.rating"
+            :readonly="true"
+            :cancel="false"
+          />
         </div>
 
-        
         <!-- Descripción -->
         <div style="margin-top: 10px">
           <label for="description">Descripción</label>
-          <Textarea id="description" v-model="resenia.description" :autoResize="true" rows="5" cols="30" disabled style="width: 100%"/>
+          <Textarea
+            id="description"
+            v-model="resenia.description"
+            :autoResize="true"
+            rows="5"
+            cols="30"
+            disabled
+            style="width: 100%"
+          />
         </div>
       </div>
     </Dialog>
@@ -69,10 +80,8 @@ import { useVuelidate } from "@vuelidate/core";
 import { helpers } from "@vuelidate/validators";
 import { FilterMatchMode, FilterOperator } from "primevue/api";
 
-
 export default {
-  components: {
-  },
+  components: {},
   setup: () => ({ v$: useVuelidate() }),
 
   data() {
@@ -123,41 +132,39 @@ export default {
     async getDatos() {
       this.loading = true;
 
-      await this.axios
-        .get("/api/resenia/" + this.id)
-        .then((response) => {
-          console.log(response.data);
-          if (response.data.code == 200) {
-            console.log("response.data.data");
-            console.log(response.data.data);
+      await this.axios.get("/api/resenia/" + this.id).then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          console.log("response.data.data");
+          console.log(response.data.data);
 
-            this.resenia = response.data.data;
+          this.resenia = response.data.data;
 
-            console.log("this.resenia");
-            console.log(this.resenia);
-          } else {
-            console.log("response.data.data");
-            console.log(response.data.data);
+          console.log("this.resenia");
+          console.log(this.resenia);
+        } else {
+          console.log("response.data.data");
+          console.log(response.data.data);
 
-            for (const property in response.data.data) {
-              // console.log(`${property}: ${response.data.data[property]}`);
-              this.$toast.add({
-                severity: "error",
-                summary: "Se ha producido un error",
-                detail: `${response.data.data[property]}`,
-                life: 5000,
-              });
-            }
-            // this.$toast.add({
-            //   severity: "success",
-            //   summary: "Se ha producido un error",
-            //   detail: response.data.data,
-            //   life: 5000,
-            // });
+          for (const property in response.data.data) {
+            // console.log(`${property}: ${response.data.data[property]}`);
+            this.$toast.add({
+              severity: "error",
+              summary: "Se ha producido un error",
+              detail: `${response.data.data[property]}`,
+              life: 5000,
+            });
           }
+          // this.$toast.add({
+          //   severity: "success",
+          //   summary: "Se ha producido un error",
+          //   detail: response.data.data,
+          //   life: 5000,
+          // });
+        }
 
-          this.loading = false;
-        });
+        this.loading = false;
+      });
 
       this.loadingBtnGuardar = false;
     },

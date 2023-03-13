@@ -327,6 +327,8 @@ export default {
 
               if (ele.id == response.data.data.id_category) {
                 this.categoria = ele;
+                console.log("this.categoria");
+                console.log(this.categoria);
               }
             });
           });

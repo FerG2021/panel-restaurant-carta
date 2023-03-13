@@ -9,7 +9,7 @@
       class="flex justify-content-center"
       :draggable="false"
     >
-      <template #header icon="pi pi-refresh" style="margin: 0px" class="s">
+      <template #header>
         <h3 style="margin: 0px">
           <i class="pi pi-shopping-bag" /> Detalles del pedido
         </h3>
