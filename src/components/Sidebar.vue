@@ -69,8 +69,8 @@
       <!-- Categorias -->
       <div v-if="tipoUsuario == 1">
         <router-link class="button" to="/categorias" v-if="is_expanded">
-          <!-- <span class="material-icons">home</span> -->
-          <i class="pi pi-stop material-icons"></i>
+          <span class="material-icons">category</span>
+          <!-- <i class="pi pi-stop material-icons"></i> -->
           <span class="text">Categorías</span>
         </router-link>
 
@@ -86,8 +86,8 @@
             to="/categorias"
             v-if="!is_expanded || is_expanded"
           >
-            <!-- <span class="material-icons">home</span> -->
-            <i class="pi pi-stop material-icons"></i>
+            <span class="material-icons">category</span>
+            <!-- <i class="pi pi-stop material-icons"></i> -->
             <span class="text">Categorías</span>
           </router-link>
         </el-tooltip>
