@@ -264,7 +264,6 @@ export default {
       // this.isFormValid = false;
       this.resetForm();
       this.getCategorias();
-      this.getDatos();
     },
 
     cerrar() {
@@ -272,6 +271,8 @@ export default {
     },
 
     async getCategorias() {
+      this.loading = true;
+
       await this.axios.get("/api/categoria-listar-todas").then((response) => {
         if (response.data.code == 200) {
           console.log("response.data.data");
@@ -290,11 +291,12 @@ export default {
           console.log("this.categoriasAPI");
           console.log(this.categoriasAPI);
         }
+
+        this.getDatos();
       });
     },
 
     async getDatos() {
-      this.loading = true;
       await this.axios.get("/api/producto/" + this.id).then((response) => {
         if (response.data.code == 200) {
           console.log("response.data");
