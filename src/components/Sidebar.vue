@@ -1,7 +1,7 @@
 <template>
   <aside :class="`${is_expanded && 'is-expanded'}`">
     <div class="logo">
-      <img src="../assets/vue.png" alt="Vue" />
+      <img src="../assets/gorrochef.png" alt="Vue" />
     </div>
 
     <!-- items del menu -->
@@ -43,7 +43,7 @@
         <router-link class="button" to="/productos" v-if="is_expanded">
           <span class="material-icons">restaurant</span>
           <!-- <i class="pi pi-stop material-icons"></i> -->
-          <span class="text">Categorías</span>
+          <span class="text">Productos</span>
         </router-link>
 
         <el-tooltip
@@ -93,7 +93,7 @@
         </el-tooltip>
       </div>
 
-      <!-- Mesas -->
+      <!-- Reseñas -->
       <div>
         <router-link class="button" to="/resenias" v-if="is_expanded">
           <span class="material-icons">reviews</span>
@@ -119,7 +119,7 @@
       </div>
 
       <!-- Mesas -->
-      <div>
+      <!-- <div>
         <router-link class="button" to="/mesas" v-if="is_expanded">
           <span class="material-icons">table_bar</span>
           <span class="text">Mesas</span>
@@ -141,7 +141,7 @@
             <span class="text">Mesas</span>
           </router-link>
         </el-tooltip>
-      </div>
+      </div> -->
     </div>
 
     <div class="flex"></div>
@@ -150,9 +150,8 @@
     <div class="menu">
       <div>
         <router-link class="button" to="/mi-cuenta" v-if="is_expanded">
-          <!-- <span class="material-icons">account_circle</span> -->
-          <i class="pi pi-user material-icons"></i>
-
+          <span class="material-icons">manage_accounts</span>
+          <!-- <i class="pi pi-user material-icons"></i> -->
           <span class="text">{{ $store.state.user.name }}</span>
         </router-link>
 
@@ -168,31 +167,13 @@
             to="/mi-cuenta"
             v-if="!is_expanded || is_expanded"
           >
-            <!-- <span class="material-icons">account_circle</span> -->
-            <i class="pi pi-user material-icons"></i>
+            <span class="material-icons">manage_accounts</span>
+            <!-- <i class="pi pi-user material-icons"></i> -->
 
             <span class="text">{{ $store.state.user.name }}</span>
           </router-link>
         </el-tooltip>
       </div>
-
-      <!-- <div class="button logout" v-if="is_expanded">
-        <span class="material-icons" @click="logout()">account_circle</span>
-        <span class="text">{{  $store.state.user.name }}</span>
-      </div>
-
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Usuario"
-        placement="right-start"
-        v-if="!is_expanded"
-      >
-        <div class="button logout"  v-if="!is_expanded">
-          <span class="material-icons" @click="logout()">account_circle</span>
-          <span class="text">{{  $store.state.user.name }}</span>
-        </div>
-      </el-tooltip> -->
 
       <!-- Logout -->
       <div class="button logout" v-if="is_expanded">
@@ -219,25 +200,6 @@
           <span class="text">Salir</span>
         </div>
       </el-tooltip>
-
-      <!-- Configuracion -->
-      <!-- <router-link class="button" to="/configuracion" v-if="is_expanded">
-          <span class="material-icons">settings</span>
-          <span class="text">Configuración</span>
-      </router-link>  
-      
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Configuración"
-        placement="right-start"
-        v-if="!is_expanded"
-      >
-        <router-link class="button" to="/configuracion" v-if="!is_expanded || is_expanded">
-          <span class="material-icons">settings</span>
-          <span class="text">Configuración</span>
-        </router-link>  
-      </el-tooltip> -->
     </div>
   </aside>
 </template>

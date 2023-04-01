@@ -1,7 +1,7 @@
 <template>
   <main class="home-page">
     <el-card>
-      <h1>Mesas</h1>
+      <h1>Home</h1>
 
       <div style="display: flex" v-if="loading == true">
         <div style="margin: auto">
@@ -9,75 +9,29 @@
         </div>
       </div>
 
-      <div class="grid" style="margin-top: 20px" v-if="loading == false">
+      <div class="grid" v-if="loading == false">
         <div
-          class="col-3"
-          v-for="(mesa, index) in mesas"
+          class="col-4 contenedor-card"
+          v-for="(seccion, index) in secciones"
           :key="index"
-          style="display: flex"
         >
-          <!-- {{ mesa }} -->
+          <Card @click="$router.push(seccion.path)" class="card">
+            <template #title>
+              <h3 class="card-titulo">
+                {{ seccion.titulo }}
+              </h3>
+            </template>
 
-          <Card
-            v-if="mesa.state == 'Habilitada' || mesa.state == 'Libre'"
-            style="width: 20em; background: #5cb85c; color: #fff; margin: auto"
-          >
-            <template #title> {{ mesa.name }} </template>
-            <template #subtitle>
-              <span style="color: #fff">Pedido por: Fernando</span>
-            </template>
-            <!-- <template #content>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
-                sed consequuntur error repudiandae numquam deserunt quisquam
-                repellat libero asperiores earum nam nobis, culpa ratione quam
-                perferendis esse, cupiditate neque quas!
-              </p>
-            </template> -->
-            <template #footer>
-              <Button
-                icon="pi pi-eye"
-                label="Detalles"
-                @click="$refs.modalDetalles.abrir(mesa.id)"
-                style="border-bottom: 4px"
-                disabled
-              />
-            </template>
-          </Card>
-
-          <Card
-            v-if="mesa.state == 'Ocupada'"
-            style="width: 20em; background: #d9534f; color: #fff; margin: auto"
-          >
-            <template #title style="color: #fff"> {{ mesa.name }} </template>
-            <template #subtitle>
-              <span style="color: #fff">Pedido por: Fernando</span>
-            </template>
-            <!-- <template #content>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
-                sed consequuntur error repudiandae numquam deserunt quisquam
-                repellat libero asperiores earum nam nobis, culpa ratione quam
-                perferendis esse, cupiditate neque quas!
-              </p>
-            </template> -->
-            <template #footer>
-              <Button
-                icon="pi pi-eye"
-                label="Detalles"
-                @click="$refs.modalDetalles.abrir(mesa.id)"
-                style="border-bottom: 4px"
-              />
+            <template #content>
+              <div class="card-contenedor-icono">
+                <span class="material-icons card-icono">{{
+                  seccion.icono
+                }}</span>
+              </div>
             </template>
           </Card>
         </div>
       </div>
-
-      <!-- <div class="grid">
-        <div class="col">1</div>
-        <div class="col">2</div>
-        <div class="col">3</div>
-      </div> -->
     </el-card>
   </main>
 
@@ -98,6 +52,28 @@ export default {
   data() {
     return {
       mesas: [],
+      secciones: [
+        {
+          titulo: "Productos",
+          icono: "restaurant",
+          path: "/productos",
+        },
+        {
+          titulo: "Categorías",
+          icono: "category",
+          path: "/categorias",
+        },
+        {
+          titulo: "Reseñas",
+          icono: "reviews",
+          path: "/resenias",
+        },
+        {
+          titulo: "Mi cuenta",
+          icono: "manage_accounts",
+          path: "/mi-cuenta",
+        },
+      ],
       loading: true,
     };
   },
@@ -128,21 +104,50 @@ export default {
 </script>
 
 <style>
-el-card {
-  margin: 0px;
-  padding: 0px;
+.grid {
+  margin-top: 20px;
 }
 
-.botonHome:hover {
-  transform: translateY(-2px);
-  box-shadow: 0px 2px 5px #0000002a !important;
+.contenedor-card {
+  display: flex;
+  /* border: 1px solid red; */
+  align-items: center;
+}
+
+.card {
+  margin: auto;
+  width: 80%;
+  height: 20vh;
+  background-color: #e5e5e5;
+  color: #1e293b;
+}
+
+.card:hover {
   cursor: pointer;
   background-color: #cccccc;
 }
 
-.iconoTarjeta {
-  font-size: 16vh;
-  margin-top: 20px;
-  color: var(--dark-alt);
+.card:hover .card-titulo {
+  font-size: 30px;
+}
+
+.card:hover .card-icono {
+  font-size: 10.7vh;
+}
+
+.card-titulo {
+  text-align: center;
+  transition: 0.3s;
+}
+
+.card-contenedor-icono {
+  display: flex;
+}
+
+.card-icono {
+  font-size: 10vh;
+  text-align: center;
+  margin: auto;
+  transition: 0.3s;
 }
 </style>

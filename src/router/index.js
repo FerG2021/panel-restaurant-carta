@@ -23,10 +23,10 @@ const router = createRouter({
       path: "/resenias",
       component: () => import("../views/reviews/index.vue"),
     },
-    {
-      path: "/mesas",
-      component: () => import("../views/tables/index.vue"),
-    },
+    // {
+    //   path: "/mesas",
+    //   component: () => import("../views/tables/index.vue"),
+    // },
     {
       path: "/mi-cuenta",
       component: () => import("../views/miCuenta/index.vue"),
