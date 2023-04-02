@@ -2,85 +2,97 @@
   <div class="background-login">
     <Toast />
 
-    <Card class="card-login">
-      <template #title>
-        <h1 style="text-align: center">Panel de gestión</h1>
-      </template>
-      <template #content>
-        <div class="form-content">
-          <form
-            @submit.prevent="handleSubmit(!v$.$invalid)"
-            class="p-fluid"
-            style="margin-top: 30px"
-          >
-            <div class="field">
-              <div class="p-float-label">
-                <InputText
-                  id="email"
-                  inputId="integeronly"
-                  v-model="form.email"
-                  style="width: 100%"
-                  :class="{ 'p-invalid': v$.email.$invalid && submitted }"
-                />
-                <label
-                  for="dni"
-                  :class="{ 'p-error': v$.email.$invalid && submitted }"
-                  >Ingresá tu email</label
+    <div class="contenedor-login">
+      <Card class="card-login">
+        <template #title>
+          <div class="contenedor-img-login">
+            <img src="../../assets/gorrochef.png" class="img-login" />
+          </div>
+          <h1 class="saludo-login">
+            RestaurantApp <br />
+            Panel de gestión
+          </h1>
+        </template>
+        <template #content>
+          <div class="form-content">
+            <form
+              @submit.prevent="handleSubmit(!v$.$invalid)"
+              class="p-fluid"
+              style="margin-top: 30px"
+            >
+              <div class="field" style="margin-bottom: 3vh">
+                <div class="p-float-label">
+                  <InputText
+                    id="email"
+                    inputId="integeronly"
+                    v-model="form.email"
+                    style="width: 100%"
+                    :class="{ 'p-invalid': v$.email.$invalid && submitted }"
+                  />
+                  <label
+                    for="dni"
+                    :class="{ 'p-error': v$.email.$invalid && submitted }"
+                    >Ingresá tu email</label
+                  >
+                </div>
+                <small
+                  v-if="
+                    (v$.email.$invalid && submitted) ||
+                    v$.email.$pending.$response
+                  "
+                  class="p-error"
+                  >{{
+                    v$.email.required.$message.replace("Value", "DNI")
+                  }}</small
                 >
               </div>
-              <small
-                v-if="
-                  (v$.email.$invalid && submitted) ||
-                  v$.email.$pending.$response
-                "
-                class="p-error"
-                >{{ v$.email.required.$message.replace("Value", "DNI") }}</small
-              >
-            </div>
 
-            <div class="field">
-              <div class="p-float-label">
-                <Password
-                  id="email"
-                  v-model="form.password"
-                  toggleMask
-                  style="width: 100%"
-                  :class="{ 'p-invalid': v$.password.$invalid && submitted }"
-                />
-                <label
-                  for="password"
-                  :class="{ 'p-error': v$.password.$invalid && submitted }"
-                  >Ingresá tu contraseña</label
+              <div class="field">
+                <div class="p-float-label">
+                  <Password
+                    id="email"
+                    v-model="form.password"
+                    toggleMask
+                    style="width: 100%"
+                    :class="{ 'p-invalid': v$.password.$invalid && submitted }"
+                    @keyup.enter="login()"
+                    :feedback="false"
+                  />
+                  <label
+                    for="password"
+                    :class="{ 'p-error': v$.password.$invalid && submitted }"
+                    >Ingresá tu contraseña</label
+                  >
+                </div>
+                <small
+                  v-if="
+                    (v$.password.$invalid && submitted) ||
+                    v$.password.$pending.$response
+                  "
+                  class="p-error"
+                  >{{
+                    v$.password.required.$message.replace("Value", "DNI")
+                  }}</small
                 >
               </div>
-              <small
-                v-if="
-                  (v$.password.$invalid && submitted) ||
-                  v$.password.$pending.$response
-                "
-                class="p-error"
-                >{{
-                  v$.password.required.$message.replace("Value", "DNI")
-                }}</small
-              >
-            </div>
-          </form>
-        </div>
-      </template>
+            </form>
+          </div>
+        </template>
 
-      <template #footer>
-        <div class="btn-form">
-          <Button
-            label="Ingresar"
-            type="submit"
-            class="mt-2 btn-login"
-            @click="login()"
-            style="margin: auto; width: 100%"
-            :loading="loadingLogin"
-          />
-        </div>
-      </template>
-    </Card>
+        <template #footer>
+          <div class="btn-form">
+            <Button
+              label="Ingresar"
+              type="submit"
+              class="mt-2 btn-login"
+              @click="login()"
+              style="margin: auto; width: 100%"
+              :loading="loadingLogin"
+            />
+          </div>
+        </template>
+      </Card>
+    </div>
   </div>
 </template>
 
@@ -320,52 +332,58 @@ export default {
 
 <style scoped>
 .background-login {
-  /* height: 100vh;
-  background-color: var(--dark);
-  display: flex;
-  align-items: center;
-  justify-content: center; */
-  /* background: rgb(75, 68, 203);
-  background: linear-gradient(
-    62deg,
-    rgba(75, 68, 203, 1) 0%,
-    rgba(34, 34, 223, 1) 29%,
-    rgba(0, 212, 255, 1) 100%
-  ); */
-
   height: 100vh;
-  background: rgb(98, 215, 222);
+  background: rgb(30, 41, 59);
   background: linear-gradient(
-    48deg,
-    rgba(98, 215, 222, 1) 0%,
-    rgba(123, 113, 230, 1) 29%,
-    rgba(233, 56, 245, 1) 100%
+    22deg,
+    rgba(30, 41, 59, 1) 0%,
+    rgba(56, 76, 110, 1) 54%
   );
   display: flex;
+}
+
+.contenedor-login {
+  display: flex;
+  /* border: 1px solid red; */
+  width: 100%;
 }
 
 .card-login {
   margin: auto;
   width: 40vw;
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.28);
+  height: 70vh;
+}
+
+.contenedor-img-login {
+  display: flex;
+}
+
+.img-login {
+  margin: auto;
+  height: 20vh;
+}
+
+.saludo-login {
+  text-align: center;
+  font-size: calc(1em + 1vw);
 }
 
 .form-content {
-  padding: 0px 30px 0px 30px;
+  padding: 0px 2vw 0px 2vw;
 }
 
 .btn-form {
   display: flex;
-  padding: 0px 30px 0px 30px;
+  padding: 0px 2vw 0px 2vw;
 }
 
 .btn-login {
-  background: rgb(98, 215, 222);
+  background: rgb(30, 41, 59);
   background: linear-gradient(
-    90deg,
-    rgba(98, 215, 222, 1) 0%,
-    rgba(123, 113, 230, 1) 29%,
-    rgba(233, 56, 245, 1) 100%
+    22deg,
+    rgba(30, 41, 59, 1) 0%,
+    rgba(56, 76, 110, 1) 54%
   );
   border: none;
   -webkit-transition: background 1s linear;
@@ -373,60 +391,11 @@ export default {
 }
 
 .btn-login:hover {
-  background: rgb(98, 215, 222);
+  background: rgb(52, 62, 78);
   background: linear-gradient(
-    270deg,
-    rgba(98, 215, 222, 1) 0%,
-    rgba(123, 113, 230, 1) 29%,
-    rgba(233, 56, 245, 1) 100%
+    22deg,
+    rgba(52, 62, 78, 1) 0%,
+    rgba(75, 93, 124, 1) 54%
   );
-}
-
-.contenedor-login {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.material-icons {
-  font-size: 18vh;
-  color: var(--dark);
-}
-
-.card-form {
-  height: 100%;
-}
-
-.formulario {
-  width: 90vh;
-  height: 100%;
-  text-align: center;
-  display: block;
-}
-
-.btnEnviar {
-  width: 100%;
-  text-align: center;
-}
-
-.field {
-  margin-bottom: 1.5rem;
-}
-
-.header {
-  margin: 0px !important;
-}
-
-.p-dialog {
-  border-radius: 30% !important;
-}
-
-.loginIcon {
-  font-size: 70px;
-  border: 6px solid black;
-  border-radius: 50%;
-  padding: 15px;
-  margin-bottom: 10px;
 }
 </style>

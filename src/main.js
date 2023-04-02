@@ -290,11 +290,11 @@ createApp(App)
       weekHeader: "Wk",
       firstDayOfWeek: 0,
       dateFormat: "mm/dd/yy",
-      weak: "Weak",
-      medium: "Medium",
-      strong: "Strong",
-      passwordPrompt: "Enter a password",
-      emptyFilterMessage: "No results found", // @deprecated Use 'emptySearchMessage' option instead.
+      weak: "Débil",
+      medium: "Media",
+      strong: "Fuerte",
+      passwordPrompt: "Ingresá tu contraseña",
+      emptyFilterMessage: "No se encontraron resultados", // @deprecated Use 'emptySearchMessage' option instead.
       searchMessage: "{0} results are available",
       selectionMessage: "{0} items selected",
       emptySelectionMessage: "No selected item",

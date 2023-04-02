@@ -176,7 +176,7 @@
       </div>
 
       <!-- Logout -->
-      <div class="button logout" v-if="is_expanded">
+      <div class="button logout" v-if="is_expanded" @click="logout()">
         <!-- <span class="material-icons" @click="logout()">logout</span> -->
         <span @click="logout()">
           <i class="pi pi-sign-out material-icons"></i>
@@ -192,9 +192,9 @@
         placement="right-start"
         v-if="!is_expanded"
       >
-        <div class="button logout" v-if="!is_expanded">
+        <div class="button logout" v-if="!is_expanded" @click="logout()">
           <!-- <span class="material-icons" @click="logout()">logout</span> -->
-          <span @click="logout()">
+          <span>
             <i class="pi pi-sign-out material-icons"></i>
           </span>
           <span class="text">Salir</span>
