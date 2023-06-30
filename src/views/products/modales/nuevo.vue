@@ -10,13 +10,10 @@
       :draggable="false"
     >
       <template #header>
-        <h3 style="margin: 0px">
-          <span class="material-icons">restaurant</span> Nuevo producto
-        </h3>
+        <TitleModal :header="header"></TitleModal>
       </template>
 
       <div style="margin-top: 5px; width: 100%">
-        <!-- <h5 style="margin: 0px">DNI</h5> -->
         <form
           @submit.prevent="handleSubmit(!v$.$invalid)"
           class="p-fluid"
@@ -132,7 +129,6 @@
                 :class="{ 'p-error': v$.categoria.$invalid && submitted }"
                 >Categoría <span style="color: red">*</span></label
               >
-              <!-- {{ categoria }} -->
             </div>
           </div>
 
@@ -172,12 +168,20 @@
 import { email, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import { helpers } from "@vuelidate/validators";
+import TitleModal from '../../../components/common/TitleModal.vue'
 
 export default {
+  components: { TitleModal },
   setup: () => ({ v$: useVuelidate() }),
 
   data() {
     return {
+      // header
+      header: {
+        class: 'material-icons',
+        icon: 'restaurant',
+        headerName: 'Nuevo producto',
+      },
       display: false,
       submitted: false,
       isFormValid: false,

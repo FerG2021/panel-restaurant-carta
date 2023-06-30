@@ -16,7 +16,6 @@
       </template>
 
       <div style="margin-top: 5px; width: 100%">
-        <!-- <h5 style="margin: 0px">DNI</h5> -->
         <form
           @submit.prevent="handleSubmit(!v$.$invalid)"
           class="p-fluid"

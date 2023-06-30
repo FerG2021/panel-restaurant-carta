@@ -10,13 +10,10 @@
       :draggable="false"
     >
       <template #header>
-        <h3 style="margin: 0px">
-          <i class="pi pi-stop" style="font-size: 20px" /> Modificar producto
-        </h3>
+        <TitleModal :header="header"></TitleModal>
       </template>
 
       <div style="margin-top: 5px; width: 100%">
-        <!-- <h5 style="margin: 0px">DNI</h5> -->
         <div style="display: flex" v-if="loading == true">
           <ProgressSpinner
             aria-label="Basic ProgressSpinner"
@@ -199,12 +196,22 @@
 import { email, required } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 import { helpers } from "@vuelidate/validators";
+import TitleModal from '../../../components/common/TitleModal.vue'
 
 export default {
+  components: { TitleModal },
+
   setup: () => ({ v$: useVuelidate() }),
 
   data() {
     return {
+      // header
+      header: {
+        class: 'material-icons',
+        icon: 'restaurant',
+        headerName: 'Modificar producto',
+      },
+
       display: false,
       submitted: false,
       isFormValid: false,

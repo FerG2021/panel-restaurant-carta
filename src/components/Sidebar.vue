@@ -15,231 +15,76 @@
 
     <h3>MENU</h3>
     <div class="menu">
-      <!-- Home -->
-      <div>
-        <router-link class="button" to="/" v-if="is_expanded">
-          <!-- <span class="material-icons">home</span> -->
-          <i class="pi pi-home material-icons"></i>
-          <span class="text">Home</span>
-        </router-link>
-
-        <el-tooltip
-          class="box-item"
-          effect="dark"
-          content="Home"
-          placement="right-start"
-          v-if="!is_expanded"
-        >
-          <router-link class="button" to="/" v-if="!is_expanded || is_expanded">
-            <!-- <span class="material-icons">home</span> -->
-            <i class="pi pi-home material-icons"></i>
-            <span class="text">Home</span>
-          </router-link>
-        </el-tooltip>
+      <div 
+        v-for="item in items"
+        :key="item"
+      >
+        <ItemSidebar :item="item" :is_expanded="is_expanded"></ItemSidebar>
       </div>
-
-      <!-- Productos -->
-      <div>
-        <router-link class="button" to="/productos" v-if="is_expanded">
-          <span class="material-icons">restaurant</span>
-          <!-- <i class="pi pi-stop material-icons"></i> -->
-          <span class="text">Productos</span>
-        </router-link>
-
-        <el-tooltip
-          class="box-item"
-          effect="dark"
-          content="Productos"
-          placement="right-start"
-          v-if="!is_expanded"
-        >
-          <router-link
-            class="button"
-            to="/productos"
-            v-if="!is_expanded || is_expanded"
-          >
-            <!-- <span class="material-icons">home</span> -->
-            <!-- <i class="pi pi-stop material-icons"></i> -->
-            <span class="material-icons">restaurant</span>
-            <span class="text">Productos</span>
-          </router-link>
-        </el-tooltip>
-      </div>
-
-      <!-- Categorias -->
-      <div>
-        <router-link class="button" to="/categorias" v-if="is_expanded">
-          <span class="material-icons">category</span>
-          <!-- <i class="pi pi-stop material-icons"></i> -->
-          <span class="text">Categorías</span>
-        </router-link>
-
-        <el-tooltip
-          class="box-item"
-          effect="dark"
-          content="Categorías"
-          placement="right-start"
-          v-if="!is_expanded"
-        >
-          <router-link
-            class="button"
-            to="/categorias"
-            v-if="!is_expanded || is_expanded"
-          >
-            <span class="material-icons">category</span>
-            <!-- <i class="pi pi-stop material-icons"></i> -->
-            <span class="text">Categorías</span>
-          </router-link>
-        </el-tooltip>
-      </div>
-
-      <!-- Reseñas -->
-      <div>
-        <router-link class="button" to="/resenias" v-if="is_expanded">
-          <span class="material-icons">reviews</span>
-          <span class="text">Reseñas</span>
-        </router-link>
-
-        <el-tooltip
-          class="box-item"
-          effect="dark"
-          content="Reseñas"
-          placement="right-start"
-          v-if="!is_expanded"
-        >
-          <router-link
-            class="button"
-            to="/resenias"
-            v-if="!is_expanded || is_expanded"
-          >
-            <span class="material-icons">reviews</span>
-            <span class="text">Reseñas</span>
-          </router-link>
-        </el-tooltip>
-      </div>
-
-      <!-- Mesas -->
-      <!-- <div>
-        <router-link class="button" to="/mesas" v-if="is_expanded">
-          <span class="material-icons">table_bar</span>
-          <span class="text">Mesas</span>
-        </router-link>
-
-        <el-tooltip
-          class="box-item"
-          effect="dark"
-          content="Mesas"
-          placement="right-start"
-          v-if="!is_expanded"
-        >
-          <router-link
-            class="button"
-            to="/mesas"
-            v-if="!is_expanded || is_expanded"
-          >
-            <span class="material-icons">table_bar</span>
-            <span class="text">Mesas</span>
-          </router-link>
-        </el-tooltip>
-      </div> -->
     </div>
 
     <div class="flex"></div>
 
     <!-- Mi cuenta -->
     <div class="menu">
-      <div>
-        <router-link class="button" to="/mi-cuenta" v-if="is_expanded">
-          <span class="material-icons">manage_accounts</span>
-          <!-- <i class="pi pi-user material-icons"></i> -->
-          <span class="text">{{ $store.state.user.name }}</span>
-        </router-link>
-
-        <el-tooltip
-          class="box-item"
-          effect="dark"
-          content="Mi cuenta"
-          placement="right-start"
-          v-if="!is_expanded"
-        >
-          <router-link
-            class="button"
-            to="/mi-cuenta"
-            v-if="!is_expanded || is_expanded"
-          >
-            <span class="material-icons">manage_accounts</span>
-            <!-- <i class="pi pi-user material-icons"></i> -->
-
-            <span class="text">{{ $store.state.user.name }}</span>
-          </router-link>
-        </el-tooltip>
-      </div>
-
-      <!-- Logout -->
-      <div class="button logout" v-if="is_expanded" @click="logout()">
-        <!-- <span class="material-icons" @click="logout()">logout</span> -->
-        <span @click="logout()">
-          <i class="pi pi-sign-out material-icons"></i>
-        </span>
-
-        <span class="text">Salir</span>
-      </div>
-
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Salir"
-        placement="right-start"
-        v-if="!is_expanded"
-      >
-        <div class="button logout" v-if="!is_expanded" @click="logout()">
-          <!-- <span class="material-icons" @click="logout()">logout</span> -->
-          <span>
-            <i class="pi pi-sign-out material-icons"></i>
-          </span>
-          <span class="text">Salir</span>
-        </div>
-      </el-tooltip>
+      <ItemSidebar :item="account" :is_expanded="is_expanded"></ItemSidebar>
+      <Logout></Logout>
     </div>
   </aside>
 </template>
 
 <script setup>
-import { ref } from "vue";
+  import { ref } from "vue";
 
-const is_expanded = ref(false);
-const tipoUsuario = localStorage.getItem("tipoUsuario");
+  const is_expanded = ref(false);
+  const tipoUsuario = localStorage.getItem("tipoUsuario");
 
-// const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
-
-const toggleMenu = () => {
-  is_expanded.value = !is_expanded.value;
-
-  // localStorage.setItem("is_expanded", is_expanded.value)
-  // console.log("entra");
-};
+  const toggleMenu = () => {
+    is_expanded.value = !is_expanded.value;
+  };
 </script>
 
 <script>
+import ItemSidebar from './common/ItemSidebar.vue';
+import Logout from './common/Logout.vue'
+
 export default {
-  created() {
-    this.ver();
+  components: { ItemSidebar, Logout },
+  
+  data() {
+    return {
+      items: [
+        {
+          route: '/',
+          icon: 'home',
+          name: 'Home',
+        },
+        {
+          route: '/productos',
+          icon: 'restaurant',
+          name: 'Productos',
+        },
+        {
+          route: '/categorias',
+          icon: 'category',
+          name: 'Categorías',
+        },
+        {
+          route: '/resenias',
+          icon: 'reviews',
+          name: 'Reseñas',
+        },
+      ],
+
+      account: {
+        route: '/mi-cuenta',
+        icon: 'manage_accounts',
+        name: this.$store.state.user.name,
+      }
+    }
   },
 
   methods: {
-    async logout() {
-      await this.$store.dispatch("logout");
-      // redirect
-      return this.$router.replace("/login");
-    },
-
-    ver() {
-      console.log("tipo");
-      console.log(localStorage.getItem("tipoUsuario"));
-      // this.tipoUsuario = localStorage.getItem("tipoUsuario")
-      // console.log("tipo");
-      // console.log(tipoUsuario);
-    },
   },
 };
 </script>
@@ -306,40 +151,6 @@ aside {
 
   .menu {
     margin: 0 -1rem;
-
-    .button {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-
-      padding: 0.5rem 1rem;
-      transition: 0.2s ease-out;
-
-      .material-icons {
-        font-size: 1.8rem;
-        color: var(--light);
-        transition: 0.2s ease-out;
-      }
-
-      .text {
-        color: var(--light);
-        transition: 0.2s ease-out;
-      }
-
-      &:hover,
-      &.router-link-exact-active {
-        background-color: var(--dark-alt);
-
-        .material-icons,
-        .text {
-          color: var(--primary);
-        }
-      }
-
-      &.router-link-exact-active {
-        border-right: 5px solid var(--primary);
-      }
-    }
   }
 
   &.is-expanded {

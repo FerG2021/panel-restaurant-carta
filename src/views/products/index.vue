@@ -2,13 +2,12 @@
   <main class="about-page">
     <Card>
       <template #header>
-        <h1 style="margin-top: 15px; margin-left: 15px">Productos</h1>
+        <Title :title="sectionTitle"></Title>
       </template>
-
       <template #content>
         <div style="margin-top: 10px">
           <DataTable
-            :value="categorias"
+            :value="categories"
             responsiveLayout="scroll"
             :loading="loading"
             :globalFilterFields="['name']"
@@ -18,9 +17,8 @@
             headerStyle="text-align: center"
           >
             <template #header>
-              <div class="display: flex">
-                <!-- <h5 class="m-0">Customers</h5> -->
-                <div class="margin-left: auto">
+              <div class="display-flex">
+                <div class="margin-left">
                   <span class="p-input-icon-left">
                     <i class="pi pi-search" />
                     <InputText
@@ -30,7 +28,7 @@
                   </span>
                 </div>
 
-                <div style="margin-left: auto">
+                <div class="margin-left-auto">
                   <Button
                     label="Nuevo producto"
                     @click="$refs.modalNuevo.abrir()"
@@ -50,16 +48,6 @@
                   class="ver-imagen"
                   imageStyle="border-radius: 8px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);padding: 3px; height: 6vh; width: 6vh"
                 />
-
-                <!-- <Image
-                  v-else
-                  preview
-                  src="../assets/imagen-no-disponible.png"
-                  alt="Image"
-                  width="40"
-                  class="ver-imagen"
-                  imageStyle="border-radius: 8px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);padding: 3px; height: 6vh; width: 6vh"
-                /> -->
               </template>
             </Column>
 
@@ -71,11 +59,10 @@
               </template>
             </Column>
 
-            <!-- Modificar -->
             <Column field="modificar" header="Modificar" style="width: 20px">
               <template #body="slotProps">
-                <div style="display: flex">
-                  <div style="margin: auto">
+                <div class="display-flex">
+                  <div class="margin-auto">
                     <Button
                       icon="pi pi-pencil"
                       class="p-button-rounded p-button-warning mr-2"
@@ -87,11 +74,10 @@
               </template>
             </Column>
 
-            <!-- Eliminar -->
             <Column field="eliminar" header="Eliminar" style="width: 20px">
               <template #body="slotProps">
-                <div style="display: flex">
-                  <div style="margin: auto">
+                <div class="display-flex">
+                  <div class="margin-auto">
                     <Button
                       icon="pi pi-trash"
                       class="p-button-rounded p-button-danger"
@@ -107,37 +93,42 @@
     </Card>
   </main>
 
-  <modal-nuevo ref="modalNuevo" @actualizar-tabla="obtenerTodos"></modal-nuevo>
+  <modal-nuevo 
+    ref="modalNuevo" 
+    @actualizar-tabla="getAll"
+  ></modal-nuevo>
 
   <modal-agregar-subcategoria
     ref="modalAgregarSubcategoria"
-    @actualizar-tabla="obtenerTodos"
+    @actualizar-tabla="getAll"
   ></modal-agregar-subcategoria>
 
   <modal-modificar
     ref="modalModificar"
-    @actualizar-tabla="obtenerTodos"
+    @actualizar-tabla="getAll"
   ></modal-modificar>
 
   <ConfirmDialog></ConfirmDialog>
 </template>
 
 <script>
-import { ElMessage, ElMessageBox } from "element-plus";
-import { FilterMatchMode, FilterOperator } from "primevue/api";
+import { FilterMatchMode } from "primevue/api";
 
 import ModalNuevo from "./modales/nuevo.vue";
 import ModalModificar from "./modales/modificar.vue";
+import Title from '../../components/common/Title.vue'
 
 export default {
   components: {
     ModalNuevo,
     ModalModificar,
+    Title,
   },
 
   data() {
     return {
-      categorias: [],
+      sectionTitle: 'Productos',
+      categories: [],
       loading: false,
       filters: {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -146,50 +137,31 @@ export default {
   },
 
   mounted() {
-    this.obtenerTodos();
+    this.getAll();
   },
 
   methods: {
-    async obtenerTodos() {
-      this.categorias = [];
+    async getAll() {
+      this.categories = [];
       this.loading = true;
       await this.axios.get("/api/producto").then((response) => {
         if (response.data.code == 200) {
-          console.log("response.data");
-          console.log(response.data);
-
-          this.categorias = response.data.data;
+          this.categories = response.data.data;
         }
       });
-
       this.loading = false;
     },
 
-    async generarUsuariosProveedores() {
-      console.log("usuarios proveedores");
-
-      this.axios.post("api/usuario/crearUsuarioProveedor").then((response) => {
-        ElMessage({
-          type: "success",
-          message: "¡Usuarios proveedores añadidos con éxito!",
-        });
-        this.obtenerTodos();
-      });
-    },
-
     async eliminar(row) {
-      console.log("row");
-      console.log(row);
-
       this.$confirm.require({
         header: "Confirmación",
-        message: "¿Está seguro que desea eliminar la categoría?",
+        message: "¿Está seguro que desea eliminar el producto?",
         icon: "pi pi-info-circle",
         acceptClass: "p-button-danger",
         acceptIcon: "pi pi-check",
         rejectIcon: "pi pi-times",
         accept: () => {
-          this.eliminarCategoria(row);
+          this.deleteProduct(row);
         },
         reject: () => {
           // this.$toast.add({severity:'error', summary:'Rejected', detail:'You have rejected', life: 3000});
@@ -200,8 +172,7 @@ export default {
       });
     },
 
-    async eliminarCategoria(row) {
-      console.log("entra");
+    async deleteProduct(row) {
       await this.axios
         .delete("/api/producto/" + row.data.id)
         .then((response) => {
@@ -212,7 +183,7 @@ export default {
               detail: "Producto eliminado con éxito",
               life: 3000,
             });
-            this.obtenerTodos();
+            this.getAll();
           }
         });
     },
@@ -225,6 +196,18 @@ export default {
 </script>
 
 <style>
+.display-flex {
+  display: flex;
+}
+
+.margin-auto {
+  margin: auto;
+}
+
+.margin-left-auto {
+  margin-left: auto;
+}
+
 .product-image {
   width: 70px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);

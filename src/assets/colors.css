@@ -1,0 +1,25 @@
+:root {
+  /* Login */
+  --background-gradient: linear-gradient(
+        22deg,
+        rgba(30, 41, 59, 1) 0%,
+        rgba(56, 76, 110, 1) 54%
+    );
+    --box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.28);
+    --btn-gradient: linear-gradient(
+        22deg,
+        rgba(30, 41, 59, 1) 0%,
+        rgba(56, 76, 110, 1) 54%
+      );
+    --backgroun-card: #e5e5e5;
+    --backgroun-card-hover: #cccccc;
+    
+    /* Sidebar */
+    --primary: #4ade80;
+    --primary-alt: #22c55e;
+    --grey: #64748b;
+    --dark: #1e293b;
+    --dark-alt: #334155;
+    --light: #f1f5f9;
+    --sidebar-width: 300px;
+  }
