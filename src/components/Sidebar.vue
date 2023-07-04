@@ -58,21 +58,25 @@ export default {
           route: '/',
           icon: 'home',
           name: 'Home',
+          id: 'home',
         },
         {
           route: '/productos',
           icon: 'restaurant',
           name: 'Productos',
+          id: 'products',
         },
         {
           route: '/categorias',
           icon: 'category',
           name: 'Categorías',
+          id: 'categories',
         },
         {
           route: '/resenias',
           icon: 'reviews',
           name: 'Reseñas',
+          id: 'reviews',
         },
       ],
 

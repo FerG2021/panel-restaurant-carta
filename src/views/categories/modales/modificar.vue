@@ -70,7 +70,7 @@
           </div>
 
           <Button
-            label="Ingresar"
+            label="Guardar"
             type="submit"
             class="mt-2"
             :loading="loadingBtnGuardar"

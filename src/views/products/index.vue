@@ -59,6 +59,22 @@
               </template>
             </Column>
 
+            <Column field="categoría" header="Categoría">
+              <template #body="slotProps">
+                <span>
+                  {{ slotProps.data.category.name }}
+                </span>
+              </template>
+            </Column>
+
+            <Column field="subcategory" header="Subcategoría">
+              <template #body="slotProps">
+                <span>
+                  {{ slotProps.data.subcategory.name }}
+                </span>
+              </template>
+            </Column>
+
             <Column field="modificar" header="Modificar" style="width: 20px">
               <template #body="slotProps">
                 <div class="display-flex">

@@ -42,7 +42,7 @@
 
                 <div style="margin-left: auto">
                   <Button
-                    label="Nueva categoría"
+                    label="Nueva subcategoría"
                     @click="$refs.modalAgregarSubcategoria.abrir(id)"
                   />
                 </div>

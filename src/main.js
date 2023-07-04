@@ -11,6 +11,9 @@ import ModalSinCerrar from "./components/modal_sin_cerrar/index.vue";
 import Boton from "./components/boton/index.vue";
 import MacaSelectBox from "./components/select_box/index.vue";
 
+// i18n
+import { i18n } from "./plugins/i18n";
+
 //
 // PRIMEVUE
 //
@@ -197,6 +200,7 @@ createApp(App)
   .use(router)
   .use(ElementPlus, { locale })
   .use(ElMessage)
+  .use(i18n)
   .use(VueAxios, axios)
   .mixin(variableGlobal)
   .use(store)

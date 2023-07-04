@@ -9,7 +9,8 @@
             <img src="../../assets/gorrochef.png" class="img-login" />
           </div>
           <h1 class="saludo-login">
-            RestaurantApp 
+            <!-- RestaurantApp  -->
+            {{ $t("welcome") }}
           </h1>
         </template>
         <template #content>
