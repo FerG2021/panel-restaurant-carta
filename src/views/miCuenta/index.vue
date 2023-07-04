@@ -21,26 +21,26 @@
           status-icon
         >
           <!-- Nombre -->
-          <el-form-item label="Nombre" prop="nombre">
+          <el-form-item label="Nombre" prop="nombre" label-width="200px">
             <el-input v-model="form.nombre"  :disabled="habilitarEdicionNombre()"/>
           </el-form-item>
           
           <!-- Email -->
-          <el-form-item label="Email" prop="email">
+          <el-form-item label="Email" prop="email" label-width="200px">
             <el-input v-model="form.email"  :disabled="habilitarEdicionEmail()"/>
           </el-form-item>
 
           <!-- Contraseña -->
-          <el-form-item label="Contraseña" prop="contrasena">
+          <el-form-item label="Contraseña" prop="contrasena" label-width="200px">
             <el-input v-model="form.contrasena" :disabled="habilitarEdicionContrasena()" type="password"/>
           </el-form-item>
 
           <!-- Repetir contraseña -->
-          <el-form-item label="Repetir contraseña" prop="repetirContrasena">
+          <el-form-item label="Repetir contraseña" prop="repetirContrasena" label-width="200px">
             <el-input v-model="form.repetirContrasena" :disabled="habilitarEdicionRepetirContrasena()" type="password"/>
           </el-form-item>
 
-          <el-form-item>
+          <el-form-item label-width="200px">
             <el-button 
               class="btnEnviar" 
               type="primary" 
@@ -155,7 +155,6 @@
       
       
       async onSubmit(){
-        console.log("guadarDatos");
         let params = {
           id: this.id,
           nombre: this.form.nombre,
