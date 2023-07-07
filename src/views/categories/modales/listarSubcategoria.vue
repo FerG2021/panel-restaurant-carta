@@ -11,8 +11,8 @@
     >
       <template #header>
         <h3 style="margin: 0px">
-          <i class="pi pi-stop" style="font-size: 20px" /> Lista de
-          subcategorías
+          <i class="pi pi-stop" style="font-size: 20px" /> 
+          {{ categoryName }}
         </h3>
       </template>
 
@@ -139,6 +139,7 @@ export default {
       },
       // form
       id: null,
+      categoryName: null,
       subcategorias: [],
     };
   },
@@ -153,8 +154,9 @@ export default {
   },
 
   methods: {
-    abrir(id) {
+    abrir(id, data) {
       this.id = id;
+      this.categoryName = data.name
       this.submitted = false;
       this.display = true;
       this.loading = true;
@@ -178,21 +180,10 @@ export default {
       await this.axios
         .get("/api/subcategoria-listar/" + this.id)
         .then((response) => {
-          console.log(response.data);
           if (response.data.code == 200) {
-            console.log("response.data.data");
-            console.log(response.data.data);
-
             this.subcategorias = response.data.data;
-
-            console.log("this.subcategorias");
-            console.log(this.subcategorias);
           } else {
-            console.log("response.data.data");
-            console.log(response.data.data);
-
             for (const property in response.data.data) {
-              // console.log(`${property}: ${response.data.data[property]}`);
               this.$toast.add({
                 severity: "error",
                 summary: "Se ha producido un error",
@@ -200,12 +191,6 @@ export default {
                 life: 5000,
               });
             }
-            // this.$toast.add({
-            //   severity: "success",
-            //   summary: "Se ha producido un error",
-            //   detail: response.data.data,
-            //   life: 5000,
-            // });
           }
 
           this.loading = false;
@@ -215,9 +200,6 @@ export default {
     },
 
     async eliminar(row) {
-      console.log("row");
-      console.log(row);
-
       this.$confirm.require({
         header: "Confirmación",
         message: "¿Está seguro que desea eliminar la subcategoría?",
@@ -238,7 +220,6 @@ export default {
     },
 
     async eliminarSubcategoria(row) {
-      console.log("entra");
       await this.axios
         .delete("/api/subcategoria/" + row.data.id)
         .then((response) => {

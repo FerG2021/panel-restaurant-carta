@@ -59,7 +59,7 @@
                       icon="pi pi-list"
                       class="p-button-rounded p-button-primary mr-2"
                       @click="
-                        $refs.modalListarSubcategoria.abrir(slotProps.data.id)
+                        $refs.modalListarSubcategoria.abrir(slotProps.data.id, slotProps.data)
                       "
                       style="margin-right: 5px"
                     />

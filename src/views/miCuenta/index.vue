@@ -7,35 +7,32 @@
 
       <div>    
         <div style="margin-bottom: 20px">
-          <span style="margin-right: 10px">Habilitar edición de datos</span>
-          <el-switch v-model="habilitarEdicion" />
-          <div v-if="habilitarEdicion == true">
+          <!-- <span style="margin-right: 10px">Habilitar edición de datos</span>
+          <el-switch v-model="habilitarEdicion" /> -->
+          <el-alert title="IMPORTANTE" description="Al modificar algunos de los datos de su cuenta la sesión se cerrará y deberá voler a ingresar" type="warning" show-icon/>
+          <!-- <div v-if="habilitarEdicion == true">
             <el-alert title="IMPORTANTE" description="Al modificar algunos de los datos de su cuenta la sesión se cerrará y deberá voler a ingresar" type="warning" show-icon/>
-          </div>
+          </div> -->
         </div>   
-        <el-form 
+        <!-- <el-form 
           label-width="150px" 
           ref="form"
           :model="form"
           :rules="rules"
           status-icon
         >
-          <!-- Nombre -->
           <el-form-item label="Nombre" prop="nombre" label-width="200px">
             <el-input v-model="form.nombre"  :disabled="habilitarEdicionNombre()"/>
           </el-form-item>
           
-          <!-- Email -->
           <el-form-item label="Email" prop="email" label-width="200px">
             <el-input v-model="form.email"  :disabled="habilitarEdicionEmail()"/>
           </el-form-item>
 
-          <!-- Contraseña -->
           <el-form-item label="Contraseña" prop="contrasena" label-width="200px">
             <el-input v-model="form.contrasena" :disabled="habilitarEdicionContrasena()" type="password"/>
           </el-form-item>
 
-          <!-- Repetir contraseña -->
           <el-form-item label="Repetir contraseña" prop="repetirContrasena" label-width="200px">
             <el-input v-model="form.repetirContrasena" :disabled="habilitarEdicionRepetirContrasena()" type="password"/>
           </el-form-item>
@@ -50,9 +47,118 @@
               Guardar datos
             </el-button>
           </el-form-item>
+        </el-form> -->
 
-          
-        </el-form>
+        <form
+          @submit.prevent="handleSubmit(!v$.$invalid)"
+          class="p-fluid mt-3vh form"
+        >
+          <!-- Nombre -->
+          <div class="field mt-3vh">
+            <div class="p-float-label">
+              <InputText
+                id="name"
+                inputId="integeronly"
+                v-model="v$.name.$model"
+                style="width: 100%"
+                :class="{ 'p-invalid': v$.name.$invalid && submitted }"
+              />
+              <label
+                for="name"
+                :class="{ 'p-error': v$.name.$invalid && submitted }"
+                >Nombre<span style="color: red">*</span></label
+              >
+            </div>
+            <small
+              v-if="
+                (v$.name.$invalid && submitted) ||
+                v$.name.$pending.$response
+              "
+              class="p-error"
+            >
+              {{
+                v$.name.required.$message.replace("Value", "Nombre")
+              }}
+            </small
+            >
+          </div>
+
+          <!-- Email -->
+          <div class="field mt-3vh">
+            <div class="p-float-label">
+              <InputText
+                id="email"
+                inputId="integeronly"
+                v-model="v$.email.$model"
+                style="width: 100%"
+                :class="{ 'p-invalid': v$.email.$invalid && submitted }"
+              />
+              <label
+                for="email"
+                :class="{ 'p-error': v$.email.$invalid && submitted }"
+                >Email<span style="color: red">*</span></label
+              >
+            </div>
+            <small
+              v-if="
+                (v$.email.$invalid && submitted) ||
+                v$.email.$pending.$response
+              "
+              class="p-error"
+            >
+              {{
+                v$.email.required.$message.replace("Value", "Email")
+              }}
+            </small
+            >
+          </div>
+
+          <!-- Password -->
+          <div class="field password mt-3vh">
+            <div class="p-float-label ">
+              <Password
+                id="password"
+                inputId="integeronly"
+                v-model="password"
+                style="width: 100%"
+                :feedback="false"
+                toggleMask
+              />
+              <label
+                for="password"
+                >Contraseña</label
+              >
+            </div>
+          </div>
+
+          <!-- CPassword -->
+          <div class="field password mt-3vh">
+            <div class="p-float-label ">
+              <Password
+                id="cPassword"
+                inputId="integeronly"
+                v-model="cPassword"
+                style="width: 100%"
+                :feedback="false"
+                toggleMask
+              />
+              <label
+                for="cPassword"
+                >Repetir contraseña</label
+              >
+            </div>
+          </div>
+
+          <Button
+            label="Ingresar"
+            type="submit"
+            class="mt-2"
+            :loading="loadingBtnLogin"
+          />
+        </form>
+
+
+
       </div>
     </el-card>
   </main>
@@ -60,8 +166,12 @@
 
 <script>
   import { ElMessage, ElMessageBox } from 'element-plus'
+  import { email, required } from "@vuelidate/validators";
+  import { useVuelidate } from "@vuelidate/core";
+  import { helpers } from "@vuelidate/validators";
 
   export default {
+    setup: () => ({ v$: useVuelidate() }),
     data() {
       return {
         id: null,
@@ -69,8 +179,14 @@
           nombre: null,
           email: null,
           contrasena: null,
-          repetirContrasena: null,
+          cPassword: null,
         },
+        submitted: false,
+        isFormValid: false,
+        name: "",
+        email: "",
+        password: "",
+        cPassword: "",
         habilitarEdicion: false,
 
 
@@ -107,6 +223,17 @@
       }
     },
 
+    validations() {
+      return {
+        name: {
+          required: helpers.withMessage("El nombre es requerido", required),
+        },
+        email: {
+          required: helpers.withMessage("El email es requerido", required),
+        } 
+      };
+    },
+
     created() {
       this.getDatosMiCuenta()
     },
@@ -118,8 +245,8 @@
         console.log(this.$store.state.user);
 
         this.id = this.$store.state.user.id
-        this.form.nombre = this.$store.state.user.name
-        this.form.email = this.$store.state.user.email
+        this.name = this.$store.state.user.name
+        this.email = this.$store.state.user.email
       },
 
       habilitarEdicionNombre(){
@@ -152,23 +279,35 @@
         }
       },
 
-      
+      handleSubmit(isFormValid) {
+        this.isFormValid = isFormValid;
+        this.submitted = true;
+        if (!isFormValid) {
+          return;
+        }
+        this.toggleDialog();
+      },
+
+      toggleDialog() {
+        this.showMessage = !this.showMessage;
+        this.onSubmit();
+      },
       
       async onSubmit(){
         let params = {
           id: this.id,
-          nombre: this.form.nombre,
-          email: this.form.email,
+          nombre: this.name,
+          email: this.email,
         }
 
-        if (this.form.contrasena != null) {
-          params.contrasena = this.form.contrasena
+        if (this.password != null) {
+          params.contrasena = this.password
         } else {
           params.contrasena = null
         }
 
-        if (this.form.repetirContrasena != null) {
-          params.repetirContrasena = this.form.repetirContrasena
+        if (this.cPassword != null) {
+          params.repetirContrasena = this.cPassword
         } else {
           params.repetirContrasena = null
         }
@@ -216,6 +355,13 @@
         }
       },
 
+      resetForm() {
+        this.loadingBtnLogin = false;
+        this.email = null;
+        this.password = null;
+        this.submitted = false;
+      },
+
       async logout(){
         await this.$store.dispatch("logout")
         // redirect
@@ -226,5 +372,13 @@
 </script>
 
 <style>
-
+  .form {
+    width: 60%;
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+  }
+  .mt-3vh {
+    margin-top: 3vh;
+  }
 </style>
