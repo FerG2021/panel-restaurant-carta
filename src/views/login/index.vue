@@ -9,7 +9,6 @@
             <img src="../../assets/gorrochef.png" class="img-login" />
           </div>
           <h1 class="saludo-login">
-            <!-- RestaurantApp  -->
             {{ $t("welcome") }}
           </h1>
         </template>
@@ -31,7 +30,7 @@
                 <label
                   for="email"
                   :class="{ 'p-error': v$.email.$invalid && submitted }"
-                  >Email<span style="color: red">*</span></label
+                  >{{ $t("login.formLogin.email") }}<span style="color: red">*</span></label
                 >
               </div>
               <small
@@ -63,7 +62,7 @@
                 <label
                   for="password"
                   :class="{ 'p-error': v$.password.$invalid && submitted }"
-                  >Contraseña<span style="color: red">*</span></label
+                  >{{ $t("login.formLogin.password") }}<span style="color: red">*</span></label
                 >
               </div>
               <small
@@ -81,7 +80,7 @@
             </div>
 
             <Button
-              label="Ingresar"
+              :label="$t('login.login')"
               type="submit"
               class="mt-2"
               :loading="loadingBtnLogin"
@@ -114,10 +113,10 @@ export default {
   validations() {
     return {
       email: {
-        required: helpers.withMessage("El email es requerido", required),
+        required: helpers.withMessage(this.$t("login.formLogin.requiredEmail"), required),
       },
       password: {
-        required: helpers.withMessage("La contraseña es requerida", required),
+        required: helpers.withMessage(this.$t("login.formLogin.requiredPassword"), required),
       },      
     };
   },
@@ -167,11 +166,11 @@ export default {
 
       this.loadingBtnLogin = false;
 
-      if (existeError == 1) {
+      if (existeError === 1) {
         this.$toast.add({
           severity: "error",
-          summary: "Ocurrió un error",
-          detail: "Mail o contraseña incorrectos",
+          summary: this.$t("login.errorOcurred"),
+          detail: this.$t("login.loginError"),
           life: 3000,
         });
       }

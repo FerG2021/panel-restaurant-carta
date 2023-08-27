@@ -94,6 +94,9 @@ import Image from "primevue/image";
 // prime flex
 import "primeflex/primeflex.css";
 
+// Scroll
+import VirtualScroller from 'primevue/virtualscroller';
+
 //
 // FIN PRIME VUE
 //
@@ -197,6 +200,7 @@ createApp(App)
   .component("Rating", Rating)
   .component("Textarea", Textarea)
   .component("Image", Image)
+  .component("VirtualScroller", VirtualScroller)
   .use(router)
   .use(ElementPlus, { locale })
   .use(ElMessage)

@@ -118,7 +118,6 @@
           <div class="field">
             <p for="stock">Disponible</p>
             <InputSwitch id="stock" v-model="stock" />
-            <!-- {{ stock }} -->
           </div>
 
           <!-- Subcategoria -->
@@ -144,6 +143,7 @@
           <div class="field" v-if="imagenAPI != null">
             <h5>Imagen</h5>
             <Image
+              v-if="imageID !== 'null'"
               preview
               :src="imagenAPI"
               alt="Image"
@@ -151,6 +151,7 @@
               class="ver-imagen"
               imageStyle="border-radius: 8px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);padding: 3px;"
             />
+            <img v-else src="../../../assets/producto-sin-imagen.png" alt="Vue" class="without-image-product"/>
           </div>
 
           <!-- Imagen -->
@@ -223,8 +224,9 @@ export default {
       descripcion: "",
       precio: null,
       stock: false,
-      magenAPI: null,
+      imagenAPI: null,
       imagen: null,
+      imageID: null,
       categoriasAPI: [],
       categoria: null,
 
@@ -313,6 +315,7 @@ export default {
           this.descripcion = response.data.data.description;
           this.precio = response.data.data.price;
           this.imagenAPI = response.data.data.image;
+          this.imageID = response.data.data.imageID;
 
           if (
             response.data.data.stock == true ||

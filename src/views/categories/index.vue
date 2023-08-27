@@ -16,6 +16,7 @@
             filterDisplay="menu"
             style="text-align: center"
             headerStyle="text-align: center"
+            :scrollHeight="getHeightWindow()"
           >
             <template #header>
               <div class="display: flex">
@@ -151,9 +152,15 @@ export default {
 
   mounted() {
     this.obtenerTodos();
+    this.getHeightWindow();
   },
 
   methods: {
+    getHeightWindow() {
+      var alturaPestana = window.innerHeight - 285;
+      return  alturaPestana + 'px';
+    },
+      
     async obtenerTodos() {
       this.categorias = [];
       this.loading = true;

@@ -5,5 +5,47 @@
     "home": "Home",
     "products": "Products",
     "categories": "Categories",
-    "reviews": "Reviews"
+    "reviews": "Reviews",
+
+    "login" : {
+        "login": "Login",
+        "loginError" : "Wrong email or password",
+        "errorOcurred": "An error occurred",
+        "formLogin": {
+            "email": "Email",
+            "password": "Password",
+            "requiredEmail": "The email is required",
+            "requiredPassword": "The password is required"
+        }
+    },
+
+    "logout": "Logout",
+    "save": "Save",
+
+    "productsSection": {
+        "headerTable": {
+            "image": "Image",
+            "name": "Name",
+            "description": "Description",
+            "price": "price",
+            "available": "Available",
+            "category": "Category",
+            "subcategory": "Subcategory",
+            "modify": "Modify",
+            "delete": "Delete"
+        },
+        "newProduct": "New product",
+        "placeholderSearch": "Type to search",
+        "uploadImage": "Drag images to upload",
+        "headerAnswerDeleteConfirmation": "Confirmation",
+        "answerDeleteConfirmation": "Are you sure you want to delete the product?",
+        "headerDeleteConfirmation": "Confirmation message",
+        "deleteConfirmation": "Product successfully removed",
+        "validations": {
+            "name": "The name is required",
+            "description": "The description is required",
+            "price": "The price is required",
+            "category": "The category is required"
+        }
+    }
 }

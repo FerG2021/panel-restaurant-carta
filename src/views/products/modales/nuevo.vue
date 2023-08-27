@@ -5,19 +5,18 @@
     <Dialog
       v-model:visible="display"
       icon="pi pi-refresh"
-      :style="{ width: '35%' }"
-      class="flex justify-content-center"
+      class="flex justify-content-center dialog"
       :draggable="false"
     >
+      <!-- :style="{ width: '35%' }" -->
       <template #header>
         <TitleModal :header="header"></TitleModal>
       </template>
 
-      <div style="margin-top: 5px; width: 100%">
+      <div class="form-container">
         <form
           @submit.prevent="handleSubmit(!v$.$invalid)"
-          class="p-fluid"
-          style="margin-top: 30px"
+          class="p-fluid form"
         >
           <!-- Nombre -->
           <div class="field">
@@ -26,13 +25,17 @@
                 id="nombre"
                 inputId="integeronly"
                 v-model="v$.nombre.$model"
-                style="width: 100%"
                 :class="{ 'p-invalid': v$.nombre.$invalid && submitted }"
+                class="input-text"
               />
               <label
                 for="nombre"
+                class="input-label"
                 :class="{ 'p-error': v$.nombre.$invalid && submitted }"
-                >Nombre <span style="color: red">*</span></label
+              >
+                {{ $t("productsSection.headerTable.name") }} 
+                <span class="input-required">*</span>
+              </label
               >
             </div>
             <small
@@ -54,14 +57,17 @@
                 id="descripcion"
                 v-model="descripcion"
                 toggleMask
-                style="width: 100%"
                 :class="{ 'p-invalid': v$.descripcion.$invalid && submitted }"
+                class="input-text"
               />
               <label
                 for="descripcion"
+                class="input-label"
                 :class="{ 'p-error': v$.descripcion.$invalid && submitted }"
-                >Descripción <span style="color: red">*</span></label
               >
+                {{ $t("productsSection.headerTable.description") }} 
+                <span class="input-required">*</span>
+              </label>
             </div>
             <small
               v-if="
@@ -82,7 +88,7 @@
               <InputNumber
                 id="precio"
                 v-model="v$.precio.$model"
-                style="width: 100%"
+                class="input-text"
                 mode="currency"
                 currency="ARS"
                 locale="es-AR"
@@ -90,9 +96,12 @@
               />
               <label
                 for="precio"
+                class="input-label"
                 :class="{ 'p-error': v$.precio.$invalid && submitted }"
-                >Precio <span style="color: red">*</span></label
               >
+                {{ $t("productsSection.headerTable.price") }} 
+                <span class="input-required">*</span>
+              </label>
             </div>
             <small
               v-if="
@@ -108,7 +117,7 @@
 
           <!-- Stock -->
           <div class="field">
-            <p for="stock">Disponible</p>
+            <p for="stock">{{ $t("productsSection.headerTable.available") }}</p>
             <InputSwitch id="stock" v-model="stock" />
           </div>
 
@@ -121,14 +130,16 @@
                 optionLabel="name"
                 optionGroupLabel="name"
                 :optionGroupChildren="['subcategorias']"
-                style="minwidth: 14rem"
                 :class="{ 'p-invalid': v$.categoria.$invalid && submitted }"
+                class="cascade-select"
               />
               <label
                 for="precio"
                 :class="{ 'p-error': v$.categoria.$invalid && submitted }"
-                >Categoría <span style="color: red">*</span></label
               >
+                {{ $t("productsSection.headerTable.category") }} 
+                <span style="color: red">*</span>
+              </label>
             </div>
           </div>
 
@@ -146,17 +157,17 @@
                 invalidFileSizeMessage="{0}: Tamaño de archivo inválido, debe ser menor a {1}."
               >
                 <template #empty>
-                  <p>Arrastre las imágenes para subirlas</p>
+                  <p>{{ $t("productsSection.uploadImage") }}</p>
                 </template>
               </FileUpload>
             </div>
           </div>
 
           <Button
-            label="Guardar"
+            :label="$t('save')"
             type="submit"
             class="mt-2"
-            :loading="loadingBtnGuardar"
+            :loading="loadingBtnSave"
           />
         </form>
       </div>
@@ -180,12 +191,12 @@ export default {
       header: {
         class: 'material-icons',
         icon: 'restaurant',
-        headerName: 'Nuevo producto',
+        headerName: this.$t('productsSection.newProduct'),
       },
       display: false,
       submitted: false,
       isFormValid: false,
-      loadingBtnGuardar: false,
+      loadingBtnSave: false,
       // form
       nombre: "",
       descripcion: "",
@@ -209,23 +220,19 @@ export default {
   validations() {
     return {
       nombre: {
-        required: helpers.withMessage("El nombre es requerido", required),
-        // email,
+        required: helpers.withMessage(this.$t("productsSection.validations.name"), required),
       },
 
       descripcion: {
-        required: helpers.withMessage("La descripición es requerida", required),
-        // email,
+        required: helpers.withMessage(this.$t("productsSection.validations.description"), required),
       },
 
       precio: {
-        required: helpers.withMessage("El precio es requerido", required),
-        // email,
+        required: helpers.withMessage(this.$t("productsSection.validations.price"), required),
       },
 
       categoria: {
-        required: helpers.withMessage("La categoria es requerida", required),
-        // email,
+        required: helpers.withMessage(this.$t("productsSection.validations.category"), required),
       },
     };
   },
@@ -252,9 +259,6 @@ export default {
     async getCategorias() {
       await this.axios.get("/api/categoria-listar-todas").then((response) => {
         if (response.data.code == 200) {
-          console.log("response.data.data");
-          console.log(response.data.data);
-
           response.data.data.forEach((elemento) => {
             let fila = {
               name: elemento.categoria.name,
@@ -264,9 +268,6 @@ export default {
 
             this.categoriasAPI.push(fila);
           });
-
-          console.log("this.categoriasAPI");
-          console.log(this.categoriasAPI);
         }
       });
     },
@@ -281,18 +282,11 @@ export default {
     },
 
     imagenSeleccionada(event) {
-      console.log("imagen");
-      console.log(event.files[0]);
       this.imagen = event.files[0];
     },
 
     handleSubmit(isFormValid) {
-      console.log("isFormValid");
-      console.log(isFormValid);
-
       this.isFormValid = isFormValid;
-      console.log("entro");
-
       this.submitted = true;
 
       if (!isFormValid) {
@@ -303,16 +297,8 @@ export default {
     },
 
     toggleDialog() {
-      console.log("entro");
       this.showMessage = !this.showMessage;
-
       this.guardar();
-
-      // if (!this.showMessage) {
-      //   this.resetForm();
-      // } else {
-      //   this.guardar();
-      // }
     },
 
     resetForm() {
@@ -323,15 +309,12 @@ export default {
       this.categoria = null;
       this.imagen = null;
       this.categoriasAPI = [];
-      this.loadingBtnGuardar = false;
+      this.loadingBtnSave = false;
       this.submitted = false;
     },
 
     async guardar() {
-      console.log("this.precio");
-      console.log(this.precio);
-
-      this.loadingBtnGuardar = true;
+      this.loadingBtnSave = true;
 
       // genero el formulario
       this.form.idCategoria = this.categoria.id;
@@ -340,7 +323,7 @@ export default {
       this.form.precio = this.precio;
       this.form.imagen = this.imagen;
 
-      if (this.stock == true) {
+      if (this.stock === true) {
         this.form.stock = 1;
       } else {
         this.form.stock = 0;
@@ -352,11 +335,7 @@ export default {
         formData.append(key, this.form[key]);
       }
 
-      console.log("formData");
-      console.log(formData);
-
       await this.axios.post("/api/producto", formData).then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
           this.$toast.add({
             severity: "success",
@@ -368,43 +347,45 @@ export default {
           this.display = false;
           this.$emit("actualizarTabla");
         } else {
-          console.log("response.data.data");
-          console.log(response.data.data);
-
           this.$toast.add({
             severity: "error",
             summary: "Se ha producido un error",
             detail: response.data.data,
             life: 5000,
           });
-
-          // for (const property in response.data.data) {
-          //   this.$toast.add({
-          //     severity: "error",
-          //     summary: "Se ha producido un error",
-          //     detail: `${response.data.data[property]}`,
-          //     life: 5000,
-          //   });
-          // }
         }
       });
 
-      this.loadingBtnGuardar = false;
+      this.loadingBtnSave = false;
     },
   },
 };
 </script>
 
-<style scoped>
-.field {
-  margin-bottom: 1.5rem;
-}
-
-.header {
-  margin: 0px !important;
-}
-
-.p-dialog {
-  border-radius: 30% !important;
+<style scoped lang="scss">
+.dialog {
+  .form-container {
+    margin-top: 5px; 
+    width: 100%;
+    .form {
+      margin-top: 30px;
+      .field {
+        margin-bottom: 1.5rem;
+        .p-float-label {
+          .input-text {
+            width: 100%;
+          }
+          .input-label {
+            .input-required {
+              color: red;
+            }
+          }
+          .cascade-select {
+            min-width: 14rem
+          }
+        }
+      }
+    }
+  }
 }
 </style>

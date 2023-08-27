@@ -1,6 +1,6 @@
 :root {
-  /* Login */
-  --background-gradient: linear-gradient(
+    /* Login */
+    --background-gradient: linear-gradient(
         22deg,
         rgba(30, 41, 59, 1) 0%,
         rgba(56, 76, 110, 1) 54%

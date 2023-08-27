@@ -5,5 +5,48 @@
     "home": "Inicio",
     "products": "Productos",
     "categories": "Categorías",
-    "reviews": "Reseñas"
+    "reviews": "Reseñas",
+
+    "login" : {
+        "login": "Ingresar",
+        "loginError" : "Mail o contraseña incorrecto",
+        "errorOcurred": "Ocurrió un error",
+        "formLogin": {
+            "email": "Email",
+            "password": "Contraseña",
+            "requiredEmail": "El email es requerido",
+            "requiredPassword": "La contraseña es requerida"
+        }
+    },
+
+    "logout": "Salir",
+    "save": "Guardar",
+
+
+    "productsSection": {
+        "headerTable": {
+            "image": "Imagen",
+            "name": "Nombre",
+            "description": "Descripción",
+            "price": "Precio",
+            "available": "Disponible",
+            "category": "Categoría",
+            "subcategory": "Subcategoría",
+            "modify": "Modificar",
+            "delete": "Borrar"
+        },
+        "newProduct": "Nuevo producto",
+        "placeholderSearch": "Escriba para buscar",
+        "uploadImage": "Arrastre las imágenes para subirlas",
+        "headerAnswerDeleteConfirmation": "Confirmación",
+        "answerDeleteConfirmation": "¿Está seguro que desea eliminar el producto?",
+        "headerDeleteConfirmation": "Mensaje de confirmación",
+        "deleteConfirmation": "Producto eliminado con éxito",
+        "validations": {
+            "name": "El nombre es requerido",
+            "description": "La descripición es requerida",
+            "price": "El precio es requerido",
+            "category": "La categoria es requerida"
+        }
+    }
 }
