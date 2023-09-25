@@ -11,8 +11,8 @@
         rgba(30, 41, 59, 1) 0%,
         rgba(56, 76, 110, 1) 54%
       );
-    --backgroun-card: #e5e5e5;
-    --backgroun-card-hover: #cccccc;
+    --background-card: #343e4e;
+    --background-card-hover: #1E293B;
     
     /* Sidebar */
     --primary: #4ade80;
