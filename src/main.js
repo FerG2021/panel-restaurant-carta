@@ -17,6 +17,10 @@ axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 
+import loadModulesByAccount from './utils/modulesLoader';
+const account = 'admin';
+
+loadModulesByAccount(store, router, account);
 // Elment plus
 import ElementPlus from 'element-plus';
 // import ElMessage from 'element-plus';
