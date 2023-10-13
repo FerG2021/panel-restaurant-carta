@@ -11,6 +11,7 @@
 				:key="item"
 			>
 				<ItemSidebar 
+					v-if="loadedModule(item)"
 					:item="item" 
 					:is_expanded="is_expanded"
 				></ItemSidebar>
@@ -82,12 +83,19 @@ export default {
 	},
 
 	computed: {
-		...mapGetters('UsersStore', ['user', 'auth']),
+		...mapGetters('UsersStore', ['user', 'auth', 'modules']),
 	},
 
 	methods: {
 		expandSidebar(data) {
 			this.is_expanded = data;
+		},
+		loadedModule(item) {
+			let modulesName = [];
+			for (const module of this.modules) {
+				modulesName.push(module.name);
+			}
+			return modulesName.includes(item.id);
 		}
 	},
 };

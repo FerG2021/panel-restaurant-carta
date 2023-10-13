@@ -124,114 +124,114 @@
 </template>
 
 <script>
-import { ElMessage, ElMessageBox } from "element-plus";
-import { FilterMatchMode, FilterOperator } from "primevue/api";
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { FilterMatchMode, FilterOperator } from 'primevue/api';
 
-import ModalNuevo from "./modales/nuevo.vue";
-import ModalListarSubcategoria from "./modales/listarSubcategoria.vue";
-import ModalAgregarSubcategoria from "./modales/agregarSubcategoria.vue";
-import ModalModificar from "./modales/modificar.vue";
+import ModalNuevo from './modales/nuevo.vue';
+import ModalListarSubcategoria from './modales/listarSubcategoria.vue';
+import ModalAgregarSubcategoria from './modales/agregarSubcategoria.vue';
+import ModalModificar from './modales/modificar.vue';
 
 export default {
-  components: {
-    ModalNuevo,
-    ModalListarSubcategoria,
-    ModalAgregarSubcategoria,
-    ModalModificar,
-  },
+	components: {
+		ModalNuevo,
+		ModalListarSubcategoria,
+		ModalAgregarSubcategoria,
+		ModalModificar,
+	},
 
-  data() {
-    return {
-      categorias: [],
-      loading: false,
-      filters: {
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-      },
-    };
-  },
+	data() {
+		return {
+			categorias: [],
+			loading: false,
+			filters: {
+				global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+			},
+		};
+	},
 
-  mounted() {
-    this.obtenerTodos();
-    this.getHeightWindow();
-  },
-
-  methods: {
-    getHeightWindow() {
-      var alturaPestana = window.innerHeight - 285;
-      return  alturaPestana + 'px';
-    },
+	methods: {
+		getHeightWindow() {
+			var alturaPestana = window.innerHeight - 285;
+			return  alturaPestana + 'px';
+		},
       
-    async obtenerTodos() {
-      this.categorias = [];
-      this.loading = true;
-      await this.axios.get("/api/categoria").then((response) => {
-        if (response.data.code == 200) {
-          console.log("response.data");
-          console.log(response.data);
+		async obtenerTodos() {
+			this.categorias = [];
+			this.loading = true;
+			await this.axios.get('/api/categoria').then((response) => {
+				if (response.data.code == 200) {
+					console.log('response.data');
+					console.log(response.data);
 
-          this.categorias = response.data.data;
-        }
-      });
+					this.categorias = response.data.data;
+				}
+			});
 
-      this.loading = false;
-    },
+			this.loading = false;
+		},
 
-    async generarUsuariosProveedores() {
-      console.log("usuarios proveedores");
+		async generarUsuariosProveedores() {
+			console.log('usuarios proveedores');
 
-      this.axios.post("api/usuario/crearUsuarioProveedor").then((response) => {
-        ElMessage({
-          type: "success",
-          message: "¡Usuarios proveedores añadidos con éxito!",
-        });
-        this.obtenerTodos();
-      });
-    },
+			this.axios.post('api/usuario/crearUsuarioProveedor').then((response) => {
+				ElMessage({
+					type: 'success',
+					message: '¡Usuarios proveedores añadidos con éxito!',
+				});
+				this.obtenerTodos();
+			});
+		},
 
-    async eliminar(row) {
-      console.log("row");
-      console.log(row);
+		async eliminar(row) {
+			console.log('row');
+			console.log(row);
 
-      this.$confirm.require({
-        header: "Confirmación",
-        message: "¿Está seguro que desea eliminar la categoría?",
-        icon: "pi pi-info-circle",
-        acceptClass: "p-button-danger",
-        acceptIcon: "pi pi-check",
-        rejectIcon: "pi pi-times",
-        accept: () => {
-          this.eliminarCategoria(row);
-        },
-        reject: () => {
-          // this.$toast.add({severity:'error', summary:'Rejected', detail:'You have rejected', life: 3000});
-        },
-        onHide: () => {
-          // this.$toast.add({severity:'error', summary:'Hide', detail:'You have hidden', life: 3000});
-        },
-      });
-    },
+			this.$confirm.require({
+				header: 'Confirmación',
+				message: '¿Está seguro que desea eliminar la categoría?',
+				icon: 'pi pi-info-circle',
+				acceptClass: 'p-button-danger',
+				acceptIcon: 'pi pi-check',
+				rejectIcon: 'pi pi-times',
+				accept: () => {
+					this.eliminarCategoria(row);
+				},
+				reject: () => {
+					// this.$toast.add({severity:'error', summary:'Rejected', detail:'You have rejected', life: 3000});
+				},
+				onHide: () => {
+					// this.$toast.add({severity:'error', summary:'Hide', detail:'You have hidden', life: 3000});
+				},
+			});
+		},
 
-    async eliminarCategoria(row) {
-      console.log("entra");
-      await this.axios
-        .delete("/api/categoria/" + row.data.id)
-        .then((response) => {
-          if (response.data.code == 200) {
-            this.$toast.add({
-              severity: "success",
-              summary: "Mensaje de confirmación",
-              detail: "Categoría eliminada con éxito",
-              life: 3000,
-            });
-            this.obtenerTodos();
-          }
-        });
-    },
+		async eliminarCategoria(row) {
+			console.log('entra');
+			await this.axios
+				.delete('/api/categoria/' + row.data.id)
+				.then((response) => {
+					if (response.data.code == 200) {
+						this.$toast.add({
+							severity: 'success',
+							summary: 'Mensaje de confirmación',
+							detail: 'Categoría eliminada con éxito',
+							life: 3000,
+						});
+						this.obtenerTodos();
+					}
+				});
+		},
 
-    moneda(x) {
-      return x.toLocaleString("es-AR");
-    },
-  },
+		moneda(x) {
+			return x.toLocaleString('es-AR');
+		},
+	},
+
+	mounted() {
+		this.obtenerTodos();
+		this.getHeightWindow();
+	},
 };
 </script>
 

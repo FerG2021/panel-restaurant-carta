@@ -6,6 +6,7 @@
 			</template>
 
 			<template #content>
+				{{ formData }}
 				<TableComponent 
 					:elements="dataTableData"
 					:columns="tableColumns"
@@ -67,6 +68,7 @@ export default {
 	data() {
 		return {
 			sectionTitle: this.$t('products'),
+			formData: {},
 			products: [],
 			categories: [],
 			loading: true,
@@ -128,32 +130,36 @@ export default {
 					icon: 'restaurant',
 					headerName: 'Nuevo producto',
 				},
-				fields: [
+				formConfiguration: [
 					{
-						name: 'name',
+						modelName: 'name',
 						label: 'Nombre',
 						type: 'text', 
 						required: true,
+						defaultValue: null,
 					},
-					// {
-					// 	name: 'description',
-					// 	label: 'Descripción',
-					// 	type: 'text', 
-					// 	required: true,
-					// },
-					// {
-					// 	name: 'price',
-					// 	label: 'Precio',
-					// 	type: 'number', 
-					// 	required: true,
-					// },
-					// {
-					// 	name: 'stock',
-					// 	label: 'Disponible',
-					// 	type: 'switch', 
-					// 	value: false,
-					// 	required: true,
-					// },
+					{
+						modelName: 'description',
+						label: 'Descripción',
+						type: 'text', 
+						required: true,
+						defaultValue: null,
+					},
+					{
+						modelName: 'price',
+						label: 'Precio',
+						type: 'price', 
+						required: true,
+						defaultValue: null,
+					},
+					{
+						modelName: 'stock',
+						label: 'Disponible',
+						type: 'switch', 
+						values: ['Si', 'No'],
+						required: true,
+						defaultValue: null,
+					},
 					// {
 					// 	name: 'category',
 					// 	label: 'Categoría',
@@ -237,9 +243,11 @@ export default {
 			this.$refs.updateModal.abrir(data.id);
 		},
 
-		formDataUpdate(data) {
-			console.log('data');
-			console.log(data);
+		formDataUpdate(value) {
+			console.log('value');
+			console.log(value);
+
+			this.formData = value;
 		}
 	},
 
