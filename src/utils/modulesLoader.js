@@ -2,35 +2,50 @@ import Store from '../managers/store/store';
 
 export default function loadModulesByAccount(store, router, account) {
 	const accountsModules = {
-		admin: ['Home', 'Products', 'Categories', 'Reviews'],
-		empresa: ['Home', 'Products'],
 		// Agrega otros tipos de account y los módulos correspondientes aquí
+		admin: [
+			{
+				name: 'home',
+				componentName: 'Home',
+			},
+			{
+				name: 'products',
+				componentName: 'Products',
+			},
+			{
+				name: 'categories',
+				componentName: 'Categories',
+			},
+			{
+				name: 'reviews',
+				componentName: 'Reviews',
+			}
+			
+		],
+		empresa: [
+			{
+				name: 'home',
+				componentName: 'Home',
+			},
+			{
+				name: 'products',
+				componentName: 'Products',
+			}
+		]
 	};
 
 	const processModules = accountsModules[account] || [];
 
 	processModules.forEach(module => {
-		console.log('module');
-		console.log(module);
-		import(`../modules/${module}/${module}Store.js`).then(moduleStore => {
-			// Registra el módulo en tu store Vuex
-			console.log('moduleStore');
-			console.log(moduleStore);
-			store.registerModule(`${module}Store`, moduleStore.default);
+		import(`../modules/${module.name}/${module.name}Store.js`).then(moduleStore => {
+			store.registerModule(`${module.componentName}Store`, moduleStore.default);
 		});
 
-		// // Agrega las rutas dinámicamente
-		// const moduleRoutes = import(`./modules/${module}/routes.js`);
-		// if (moduleRoutes) {
-		// 	router.addRoutes(moduleRoutes.default);
-		// }
-
+		router.addRoute({
+			path: `/${module.name}`,
+			component: () => import(`../modules/${module.name}/${module.componentName}.vue`)
+		});
 
 		Store.commit('UsersStore/setModules', processModules);
-
-		router.addRoute({
-			path: `/${module}`,
-			component: () => import(`../modules/${module}/${module}.vue`)
-		})
 	});
 }

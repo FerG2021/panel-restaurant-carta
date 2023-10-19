@@ -17,18 +17,46 @@
 					@submit.prevent="handleSubmit(!v$.$invalid)"
 					class="p-fluid form"
 				>
-					<div v-for="field in data.fields" :key="field.name" style="border: 1px solid red; padding: 30px 0px 0px 0px">
-						
+					<div 
+						v-for="field in data.formConfiguration" 
+						:key="field.name"
+						class="form-item"
+					>
 						<div class="field" v-if="field.type === 'text'">
 							<div class="p-float-label">
 								<p>
 									{{ field.label }} 
-									<span v-if="field.required">*</span>
+									<span 
+										v-if="field.required"
+										class="required"
+									>
+										*
+									</span>
 								</p>
 								<InputText
 									:id="field.name"
-									:v-model="field.name"
-									@update:modelValue="(value) => handleInputChange(value, field.name)"
+									:v-model="field.defaultValue"
+									@update:modelValue="(value) => handleInputChange(value, field.modelName)"
+								/>
+							</div>
+						</div>
+
+						<div class="field" v-if="field.type === 'price'">
+							<div class="p-float-label">
+								<p>
+									{{ field.label }} 
+									<span 
+										v-if="field.required"
+										class="required"
+									>
+										*
+									</span>
+								</p>
+								<InputText
+									:id="field.name"
+									:v-model="field.defaultValue"
+									:keyfilter="/^\d*$/"
+									@update:modelValue="(value) => handleInputChange(value, field.modelName)"
 								/>
 							</div>
 						</div>
@@ -59,7 +87,7 @@ export default {
 	components: { TitleModal },
 	props: {
 		data: {
-			type: Object,
+			type: Array,
 			required: true,
 		},
 	},
@@ -72,18 +100,24 @@ export default {
 	methods: {
 		handleModalClose() {
 			this.errors = null;
+			this.formData = {};
 		},
 		handleInputChange(value, moduleName) {
+			console.log('value');
+			console.log(value);
 			this.formData[moduleName] = value;
+			this.$emit('formDataUpdate', this.formData);
 		},
 		save() {
 			this.errors = this.validateForm();
 			this.$emit('formDataUpdate', this.formData);
 		},
 		validateForm() {
-			for (const item of this.data.fields) {
-				if (item.required) {
-					return !this.formData[item.name] ? `El campo ${item.label} es requerido` : null;
+			for (const item of this.data.formConfiguration) {
+				console.log('item');
+				console.log(item);
+				if (item.required && !this.formData[item.name]) {
+					return `El campo ${item.label} es requerido`;
 				}
 			}
 
@@ -93,6 +127,29 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.form-container {
+	.form {
+		.form-item {
+			padding: 5px 0px 0px 0px;
+			.field {
+				.p-float-label {
+					p {
+						.required {
+							color: var(--danger);
+						}
+					}
+				}
+			}
+		}
+		.show-errors {
+			border: 1px solid red;
+			padding: 10px;
+			text-align: center;
+			background-color: var(--danger);
+			color: #fff;
+		}
+	}
+}
 
 </style>

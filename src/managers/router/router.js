@@ -13,7 +13,7 @@ const router = createRouter({
 		},
 		// {
 		// 	path: '/products',
-		// 	component: () => import('../../modules/Products/Products.vue'),
+		// 	component: () => import('../../modules/products/Products.vue'),
 		// },
 		// {
 		// 	path: '/categorias',

@@ -91,11 +91,11 @@ export default {
 			this.is_expanded = data;
 		},
 		loadedModule(item) {
-			const idMatches = this.modules.includes(item.id);
-			console.log('idMatches');
-			console.log(idMatches);
-
-			return idMatches;
+			let modulesName = [];
+			for (const module of this.modules) {
+				modulesName.push(module.name);
+			}
+			return modulesName.includes(item.id);
 		}
 	},
 };

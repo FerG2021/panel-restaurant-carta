@@ -185,7 +185,6 @@ export default {
 
 	data() {
 		return {
-			// header
 			header: {
 				class: 'material-icons',
 				icon: 'restaurant',

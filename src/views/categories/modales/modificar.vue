@@ -82,150 +82,150 @@
 </template>
 
 <script>
-import { email, required } from "@vuelidate/validators";
-import { useVuelidate } from "@vuelidate/core";
-import { helpers } from "@vuelidate/validators";
+import { email, required } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { helpers } from '@vuelidate/validators';
 
 export default {
-  setup: () => ({ v$: useVuelidate() }),
 
-  data() {
-    return {
-      display: false,
-      submitted: false,
-      isFormValid: false,
-      loadingBtnGuardar: false,
-      loading: true,
-      // form
-      id: null,
-      nombre: "",
-      descripcion: "",
-    };
-  },
+	data() {
+		return {
+			display: false,
+			submitted: false,
+			isFormValid: false,
+			loadingBtnGuardar: false,
+			loading: true,
+			// form
+			id: null,
+			nombre: '',
+			descripcion: '',
+		};
+	},
 
-  validations() {
-    return {
-      nombre: {
-        required: helpers.withMessage("El nombre es requerido", required),
-        // email,
-      },
-    };
-  },
+	methods: {
+		abrir(id) {
+			this.id = id;
+			this.submitted = false;
+			this.display = true;
+			// this.isFormValid = false;
+			this.resetForm();
+			this.getDatos();
+		},
 
-  methods: {
-    abrir(id) {
-      this.id = id;
-      this.submitted = false;
-      this.display = true;
-      // this.isFormValid = false;
-      this.resetForm();
-      this.getDatos();
-    },
+		cerrar() {
+			this.display = false;
+		},
 
-    cerrar() {
-      this.display = false;
-    },
+		async getDatos() {
+			this.loading = true;
+			await this.axios.get('/api/categoria/' + this.id).then((response) => {
+				if (response.data.code == 200) {
+					console.log('response.data');
+					console.log(response.data);
 
-    async getDatos() {
-      this.loading = true;
-      await this.axios.get("/api/categoria/" + this.id).then((response) => {
-        if (response.data.code == 200) {
-          console.log("response.data");
-          console.log(response.data);
+					this.nombre = response.data.data.name;
+					this.descripcion = response.data.data.description;
 
-          this.nombre = response.data.data.name;
-          this.descripcion = response.data.data.description;
+					this.loading = false;
+				}
+			});
+		},
 
-          this.loading = false;
-        }
-      });
-    },
+		handleSubmit(isFormValid) {
+			console.log('isFormValid');
+			console.log(isFormValid);
 
-    handleSubmit(isFormValid) {
-      console.log("isFormValid");
-      console.log(isFormValid);
+			this.isFormValid = isFormValid;
+			console.log('entro');
 
-      this.isFormValid = isFormValid;
-      console.log("entro");
+			this.submitted = true;
 
-      this.submitted = true;
+			if (!isFormValid) {
+				return;
+			}
 
-      if (!isFormValid) {
-        return;
-      }
+			this.toggleDialog();
+		},
 
-      this.toggleDialog();
-    },
+		toggleDialog() {
+			this.showMessage = !this.showMessage;
+			this.guardar();
 
-    toggleDialog() {
-      this.showMessage = !this.showMessage;
-      this.guardar();
+			// if (!this.showMessage) {
+			//   this.resetForm();
+			// } else {
+			//   this.guardar();
+			// }
+		},
 
-      // if (!this.showMessage) {
-      //   this.resetForm();
-      // } else {
-      //   this.guardar();
-      // }
-    },
+		resetForm() {
+			this.nombre = null;
+			this.descripcion = null;
+			this.loadingBtnGuardar = false;
+			this.submitted = false;
+		},
 
-    resetForm() {
-      this.nombre = null;
-      this.descripcion = null;
-      this.loadingBtnGuardar = false;
-      this.submitted = false;
-    },
+		async guardar() {
+			this.loadingBtnGuardar = true;
 
-    async guardar() {
-      this.loadingBtnGuardar = true;
+			let params = {
+				nombre: this.nombre,
+				descripcion: this.descripcion,
+			};
 
-      let params = {
-        nombre: this.nombre,
-        descripcion: this.descripcion,
-      };
+			// if (this.descripcion != "") {
+			//   params.descripcion = this.descripcion;
+			// }
 
-      // if (this.descripcion != "") {
-      //   params.descripcion = this.descripcion;
-      // }
+			await this.axios
+				.put('/api/categoria/' + this.id, params)
+				.then((response) => {
+					console.log(response.data);
+					if (response.data.code == 200) {
+						this.$toast.add({
+							severity: 'success',
+							summary: 'Mensaje de confirmación',
+							detail: 'Categoría creada con éxito',
+							life: 3000,
+						});
 
-      await this.axios
-        .put("/api/categoria/" + this.id, params)
-        .then((response) => {
-          console.log(response.data);
-          if (response.data.code == 200) {
-            this.$toast.add({
-              severity: "success",
-              summary: "Mensaje de confirmación",
-              detail: "Categoría creada con éxito",
-              life: 3000,
-            });
+						this.display = false;
+						this.$emit('actualizarTabla');
+					} else {
+						console.log('response.data.data');
+						console.log(response.data.data);
 
-            this.display = false;
-            this.$emit("actualizarTabla");
-          } else {
-            console.log("response.data.data");
-            console.log(response.data.data);
+						for (const property in response.data.data) {
+							// console.log(`${property}: ${response.data.data[property]}`);
+							this.$toast.add({
+								severity: 'error',
+								summary: 'Se ha producido un error',
+								detail: `${response.data.data[property]}`,
+								life: 5000,
+							});
+						}
+						// this.$toast.add({
+						//   severity: "success",
+						//   summary: "Se ha producido un error",
+						//   detail: response.data.data,
+						//   life: 5000,
+						// });
+					}
+				});
 
-            for (const property in response.data.data) {
-              // console.log(`${property}: ${response.data.data[property]}`);
-              this.$toast.add({
-                severity: "error",
-                summary: "Se ha producido un error",
-                detail: `${response.data.data[property]}`,
-                life: 5000,
-              });
-            }
-            // this.$toast.add({
-            //   severity: "success",
-            //   summary: "Se ha producido un error",
-            //   detail: response.data.data,
-            //   life: 5000,
-            // });
-          }
-        });
+			this.loadingBtnGuardar = false;
+		},
+	},
+	setup: () => ({ v$: useVuelidate() }),
 
-      this.loadingBtnGuardar = false;
-    },
-  },
+	validations() {
+		return {
+			nombre: {
+				required: helpers.withMessage('El nombre es requerido', required),
+				// email,
+			},
+		};
+	},
 };
 </script>
 

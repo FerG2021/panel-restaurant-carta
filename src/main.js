@@ -113,6 +113,10 @@ import 'primeflex/primeflex.css';
 // Scroll
 import VirtualScroller from 'primevue/virtualscroller';
 
+// SelectButton
+import SelectButton from 'primevue/selectbutton';
+
+
 //
 // FIN PRIME VUE
 //
@@ -165,6 +169,7 @@ createApp(App)
 	.component('Textarea', Textarea)
 	.component('Image', Image)
 	.component('VirtualScroller', VirtualScroller)
+	.component('SelectButton', SelectButton)
 	.use(router)
 	.use(ElementPlus, { locale })
 	// .use(ElMessage)
