@@ -11,18 +11,18 @@ const router = createRouter({
 			path: '/',
 			component: () => import('../../modules/home/Home.vue'),
 		},
-		{
-			path: '/products',
-			component: () => import('../../modules/products/Products.vue'),
-		},
-		{
-			path: '/categorias',
-			component: () => import('../../views/categories/index.vue'),
-		},
-		{
-			path: '/resenias',
-			component: () => import('../../views/reviews/index.vue'),
-		},
+		// {
+		// 	path: '/products',
+		// 	component: () => import('../../modules/Products/Products.vue'),
+		// },
+		// {
+		// 	path: '/categorias',
+		// 	component: () => import('../../views/categories/index.vue'),
+		// },
+		// {
+		// 	path: '/resenias',
+		// 	component: () => import('../../views/reviews/index.vue'),
+		// },
 		{
 			path: '/account',
 			component: () => import('../../views/miCuenta/index.vue'),

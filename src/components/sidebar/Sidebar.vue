@@ -10,7 +10,8 @@
 				v-for="item in items"
 				:key="item"
 			>
-				<ItemSidebar 
+				<ItemSidebar
+					v-if="loadedModule(item)" 
 					:item="item" 
 					:is_expanded="is_expanded"
 				></ItemSidebar>
@@ -51,25 +52,25 @@ export default {
 					route: '/',
 					icon: 'home',
 					name: 'Home',
-					id: 'home',
+					id: 'Home',
 				},
 				{
 					route: '/products',
 					icon: 'restaurant',
 					name: 'Productos',
-					id: 'products',
+					id: 'Products',
 				},
 				{
 					route: '/categorias',
 					icon: 'category',
 					name: 'Categorías',
-					id: 'categories',
+					id: 'Categories',
 				},
 				{
 					route: '/resenias',
 					icon: 'reviews',
 					name: 'Reseñas',
-					id: 'reviews',
+					id: 'Reviews',
 				},
 			],
 
@@ -82,12 +83,19 @@ export default {
 	},
 
 	computed: {
-		...mapGetters('UsersStore', ['user', 'auth']),
+		...mapGetters('UsersStore', ['user', 'auth', 'modules']),
 	},
 
 	methods: {
 		expandSidebar(data) {
 			this.is_expanded = data;
+		},
+		loadedModule(item) {
+			const idMatches = this.modules.includes(item.id);
+			console.log('idMatches');
+			console.log(idMatches);
+
+			return idMatches;
 		}
 	},
 };

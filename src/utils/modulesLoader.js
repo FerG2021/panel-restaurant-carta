@@ -1,7 +1,9 @@
+import Store from '../managers/store/store';
+
 export default function loadModulesByAccount(store, router, account) {
 	const accountsModules = {
-		admin: ['products', 'categories', 'reviews'],
-		empresa: ['products'],
+		admin: ['Home', 'Products', 'Categories', 'Reviews'],
+		empresa: ['Home', 'Products'],
 		// Agrega otros tipos de account y los módulos correspondientes aquí
 	};
 
@@ -22,5 +24,13 @@ export default function loadModulesByAccount(store, router, account) {
 		// if (moduleRoutes) {
 		// 	router.addRoutes(moduleRoutes.default);
 		// }
+
+
+		Store.commit('UsersStore/setModules', processModules);
+
+		router.addRoute({
+			path: `/${module}`,
+			component: () => import(`../modules/${module}/${module}.vue`)
+		})
 	});
 }

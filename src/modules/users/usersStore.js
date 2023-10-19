@@ -6,6 +6,7 @@ export default {
 	state: {
 		user: null,
 		auth: false,
+		modules: null,
 	},
 
 	mutations: {
@@ -19,6 +20,10 @@ export default {
 		setUserLS(state, user) {
 			state.user = user;
 			state.auth = Boolean(user);
+		},
+
+		setModules(state, modules) {
+			state.modules = modules;
 		}
 	},
 
@@ -28,6 +33,9 @@ export default {
 		},
 		auth(state) {
 			return state.auth;
+		},
+		modules(state) {
+			return state.modules;
 		}
 	},
 
